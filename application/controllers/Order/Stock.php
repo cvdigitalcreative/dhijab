@@ -16,7 +16,7 @@
 		    $this->load->model('m_pemesanan');
 		    $this->load->model('m_barang');
 		    $this->load->model('m_list_barang');
-		    $this->load->library('upload');
+		    $this->load->library('upload'); 
 	  	}
 
 	  	function index(){
