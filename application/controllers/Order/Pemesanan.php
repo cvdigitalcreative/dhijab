@@ -158,7 +158,7 @@
  	  	function list_barang($pemesanan_id){
  	  		if($this->session->userdata('akses') == 3 && $this->session->userdata('masuk') == true){
  	  		   $level = $this->uri->segment(5);
- 	  		   if($level == 1){
+ 	  		   if($level == 3){
  	  		   	   $x['p_id'] = $pemesanan_id;
  	  		   	   $x['lvl'] =$level;	
 	 	  		   $y['title'] = "List Barang Pemesan";

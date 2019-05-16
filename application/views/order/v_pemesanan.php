@@ -157,7 +157,7 @@
                                   </select>
                                  </div>
                                  <div class="col-md-12">
-                                  <label class="control-label">Kurir</label>
+                                  <label class="control-label">Ekspedisi</label>
                                   <select class="form-control" name="kurir" required>
                                     <option selected value="">Pilih</option>
                                     <?php
@@ -261,7 +261,7 @@
                                   </select>
                                  </div>
                                  <div class="col-md-12">
-                                  <label class="control-label">Kurir</label>
+                                  <label class="control-label">Ekspedisi</label>
                                   <select class="form-control" name="kurir" required>
                                     <option selected value="">Pilih</option>
                                     <?php
@@ -388,7 +388,7 @@
                                   </select>
                                  </div>
                                  <div class="col-md-12">
-                                  <label class="control-label">Kurir</label>
+                                  <label class="control-label">Ekspedisi</label>
                                   <select class="form-control" name="kurir" required>
                                     <option selected value="">Pilih</option>
                                     <?php
