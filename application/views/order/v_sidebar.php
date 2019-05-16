@@ -18,7 +18,7 @@
           <a href="<?php echo base_url()?>Order/Pemesanan/Asal_Transaksi"><i class="ti-calendar"></i><span class="right-nav-text">Asal Transaksi</span> </a>
         </li>
         <li>
-          <a href="<?php echo base_url()?>Order/Pemesanan/Kurir"><i class="ti-calendar"></i><span class="right-nav-text">Kurir</span> </a>
+          <a href="<?php echo base_url()?>Order/Pemesanan/Kurir"><i class="ti-calendar"></i><span class="right-nav-text">Ekspedisi</span> </a>
         </li>
 
         <li>

@@ -161,7 +161,7 @@
   
   $('#submit').click(function(){    
     $.ajax({
-      url:"<?php echo base_url()?>Owner/Barang",
+      url:"<?php echo base_url()?>Order/Barang",
       method:"POST",
       data:$('#add_name').serialize(),
       success:function(data)

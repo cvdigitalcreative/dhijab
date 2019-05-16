@@ -24,8 +24,8 @@
 	  			$y['title'] = "Stock";
 	  			$x['stock'] = $this->m_barang->getAllBarang();
 		       	$this->load->view('v_header',$y);
-		       	$this->load->view('owner/v_sidebar');
-		       	$this->load->view('owner/v_stock',$x);
+		       	$this->load->view('order/v_sidebar');
+		       	$this->load->view('order/v_stock',$x);
 		    }
 		    else{
 		       redirect('Login');
@@ -37,8 +37,8 @@
  	  			$y['title'] = "Stock";
 	 	  		   $x['stock'] = $this->m_barang->getHistoryStock($barang_id);	
 			       $this->load->view('v_header',$y);
-			       $this->load->view('owner/v_sidebar');
-			       $this->load->view('owner/v_history_stock',$x);
+			       $this->load->view('order/v_sidebar');
+			       $this->load->view('order/v_history_stock',$x);
 		       
 		    }
 		    else{
