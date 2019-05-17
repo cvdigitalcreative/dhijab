@@ -8,22 +8,14 @@
         <!-- menu title -->
          <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">Website Components</li>
         <!-- All Form  --> 
+        
         <li>
-          <a href="<?php echo base_url()?>Order/Pemesanan"><i class="ti-calendar"></i><span class="right-nav-text">Pemesanan</span> </a>
+          <a href="<?php echo base_url()?>Stok/Stock"><i class="ti-calendar"></i><span class="right-nav-text">Stock</span> </a>
         </li>
         <li>
-          <a href="<?php echo base_url()?>Order/Stock"><i class="ti-calendar"></i><span class="right-nav-text">Stock</span> </a>
-        </li>
-        <li>
-          <a href="<?php echo base_url()?>Order/Pemesanan/Asal_Transaksi"><i class="ti-calendar"></i><span class="right-nav-text">Asal Transaksi</span> </a>
-        </li>
-        <li>
-          <a href="<?php echo base_url()?>Order/Pemesanan/Kurir"><i class="ti-calendar"></i><span class="right-nav-text">Ekspedisi</span> </a>
+          <a href="<?php echo base_url()?>Stok/Pemesanan/Kurir"><i class="ti-calendar"></i><span class="right-nav-text">Ekspedisi</span> </a>
         </li>
 
-        <li>
-          <a href="<?php echo base_url()?>Order/Pemesanan/metode_pembayaran"><i class="ti-calendar"></i><span class="right-nav-text">Metode Pembayaran</span> </a>
-        </li>
         
          <!-- <li>
           <a href="javascript:void(0);" data-toggle="collapse" data-target="#Barang">
@@ -36,7 +28,7 @@
           </ul>
         </li> -->
 <!--         <li>
-          <a href="<?php echo base_url()?>TindakanPerbaikan/tindakan_perbaikan_admin"><i class="ti-world"></i><span class="right-nav-text">Tindakan Perbaikan</span> </a>
+          <a href="<?php echo base_url()?>TindakanPerbaikan/tindakan_perbaikan_Stok"><i class="ti-world"></i><span class="right-nav-text">Tindakan Perbaikan</span> </a>
         </li> -->
     </ul>
   </div> 

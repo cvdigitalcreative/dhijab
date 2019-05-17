@@ -2,12 +2,12 @@
     <div class="page-title">
       <div class="row">
           <div class="col-sm-6">
-              <h4 class="mb-0">Data Metode Pembayaran</h4>              
+              <h4 class="mb-0">Data Daftar Barang</h4>              
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-              <li class="breadcrumb-item"><a href="<?php echo base_url()?>Admin/Pemesanan" class="default-color">Home</a></li>
-              <li class="breadcrumb-item active">Metode Pembayaran</li>
+              <li class="breadcrumb-item"><a href="#" class="default-color">Home</a></li>
+              <li class="breadcrumb-item active">Daftar Barang</li>
             </ol>
           </div>
         </div>
@@ -17,137 +17,47 @@
       <div class="col-xl-12 mb-30">     
         <div class="card card-statistics h-100"> 
           <div class="card-body">
-            <div class="col-xl-12 mb-10">
-              <a href="" data-toggle="modal" data-target="#at" class="btn btn-primary btn-block ripple m-t-20">
-                  <i class="fa fa-plus pr-2"></i> Tambah Metode Pembayaran
-              </a>
-            </div>
             <div class="table-responsive">
             <table id="datatable" class="table table-striped table-bordered p-0">
               <thead>
                   <tr>
-                      <th width="20">No</th>
-                      <th>Metode Pembayaran</th>
+                      <th width="10">No</th>
+                      <th>Nama Barang</th>
+                      <th><center>Stock Awal</center></th>
+                      <th><center>Stock Akhir</center></th>
+                      <th><center>Tanggal Input</center></th>
                       <th width="100"><center>Aksi</center></th>
                   </tr>
               </thead>
               <tbody>
-                <?php 
-                $no =0;
-
-                foreach($metpem->result_array() as $i) :
+                  <?php 
+                  $no = 0;
+                  foreach($stock->result_array() as $i) :
                     $no++;
-                    $mp_id = $i['mp_id'];
-                    $mp_nama = $i['mp_nama'];
-                    $mp_tanggal = $i['mp_tanggal'];
+                    $barang_id = $i['barang_id'];
+                    $barang_nama = $i['barang_nama'];
+                    $barang_stock_awal = $i['barang_stock_awal'];
+                    $barang_stock_akhir = $i['barang_stock_akhir'];
+                    $barang_level = $i['barang_level'];
+                    $tanggal = $i['tanggal'];
                   ?>
                   <tr>
-                     <td><center><?php echo $no?></center></td>
-                      <td><?php echo $mp_nama?></td>
+                      <td><center><?php echo $no?></center></td>
+                      <td><?php echo $barang_nama?></td>
+                      <td><center><?php echo $barang_stock_awal?></center></td>
+                      <td><center><?php echo $barang_stock_akhir?></center></td>
+                      <td><center><?php echo $tanggal?></center></td>
                       <td>
-                          <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $mp_id?>"><span class="ti-pencil"></span></a>
-                          <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata<?php echo $mp_id?>"><span class="ti-trash"></span></a>
+                          <center><a href="<?php echo base_url()?>Admin/Stock/History/<?php echo $barang_id?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock"><span class="ti-eye"></span></a></center>
                       </td>
                     </tr>
-                  <?php endforeach;?>
+                    <?php endforeach;?>
               </tbody>
            </table>
           </div>
           </div>
         </div>   
       </div>
-
-       <!-- Modal Add Barang Reseller-->
-        <div class="modal" tabindex="-1" role="dialog" id="at">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Tambah Metode Pembayaran</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <form action="<?php echo base_url()?>Admin/Pemesanan/saveMetodePembayaran" method="post" enctype="multipart/form-data">
-                    <div class="modal-body p-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="control-label">Nama Metode Pembayaran</label>
-                                    <input class="form-control form-white" type="text" name="mp_nama" required />
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <?php foreach($metpem->result_array() as $i) :
-                    $no++;
-                    $mp_id = $i['mp_id'];
-                    $mp_nama = $i['mp_nama'];
-                    $mp_tanggal = $i['mp_tanggal'];
-                  ?>
-        <!-- Modal edit Data -->
-          <div class="modal" tabindex="-1" role="dialog" id="editdata<?php echo $mp_id?>">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Data</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <form action="<?php echo base_url()?>Admin/Pemesanan/updateMetodePembayaran" method="post" enctype="multipart/form-data">
-                    <div class="modal-body p-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="control-label">Nama Metode Pembayaran</label>
-                                    <input type="hidden" name="mp_id" value="<?php echo $mp_id?>">
-                                    <input class="form-control form-white" type="text" name="mp_nama" value="<?php echo $mp_nama?>" required/>
-                                </div>
-                            </div>          
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php endforeach;?>
-
-        <?php foreach($metpem->result_array() as $i) :
-                    $no++;
-                    $mp_id = $i['mp_id'];
-                    $mp_nama = $i['mp_nama'];
-                    $mp_tanggal = $i['mp_tanggal'];
-                  ?>
-        <div class="modal" tabindex="-1" role="dialog" id="hapusdata<?php echo $mp_id?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Hapus Metode Pembayaran</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body p-20">
-                        <form action="<?php echo base_url()?>Admin/Pemesanan/hapusMetodePembayaran" method="post">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input type="hidden" name="mp_id" value="<?php echo $mp_id?>"/> 
-                                    <p>Apakah kamu yakin ingin menghapus data ini?</i></b></p>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
-                        <button type="submit" class="btn btn-success ripple save-category">Ya</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php endforeach;?>
   </div>
 
     
@@ -268,7 +178,7 @@
         <script type="text/javascript">
                 $.toast({
                     heading: 'Update',
-                    text: "Data berhasil Diupdate.",
+                    text: "Data Harian berhasil Diupdate.",
                     showHideTransition: 'slide',
                     icon: 'success',
                     loader: true,        // Change it to false to disable loader
@@ -281,7 +191,7 @@
         <script type="text/javascript">
                 $.toast({
                     heading: 'Success',
-                    text: "Data berhasil disimpan",
+                    text: "Berhasil tambah data barang reseller",
                     showHideTransition: 'slide',
                     icon: 'info',
                     loader: true,        // Change it to false to disable loader
@@ -333,7 +243,7 @@
         <script type="text/javascript">
                 $.toast({
                     heading: 'Delete',
-                    text: "Data berhasil didelete",
+                    text: "Barang berhasil didelete",
                     showHideTransition: 'slide',
                     icon: 'info',
                     loader: true,        // Change it to false to disable loader

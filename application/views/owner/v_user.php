@@ -56,8 +56,10 @@
                     <?php
                       if ($level ==  1)
                         echo "<td>Owner</td>";
-                      else
-                        echo "<td>Admin</td>";
+                      else if($level ==  2)
+                        echo "<td>Admin Stok</td>";
+                        else 
+                        echo "<td>Admin Order</td>";
                     ?>
                     <td><?= $username?></td>
                     <td><?= $password?></td>
@@ -93,7 +95,7 @@
                                       <select class="form-control" name="level">
                                           <option selected value="">Pilih</option>
                                           <option value="1">Owner</option>
-                                          <option value="2">Admin</option>
+                                          <option value="2">Stok</option>
                                           <option value="3">Order</option>
                                           
                                       </select>
@@ -162,15 +164,18 @@
                                           if ($level == 1) {
                                             echo "<option value=''>Pilih</option>";
                                             echo "<option selected value='1'>Owner</option>";
-                                            echo "<option value='2'>Admin</option>";
+                                            echo "<option value='2'>Stok</option>";
+                                            echo "<option value='3'>Order</option>";
                                           }elseif ($level == 2) {
                                             echo "<option value=''>Pilih</option>";
-                                            echo "<option value='1'>Owner</option>";
-                                            echo "<option selected value='2'>Admin</option>";
+                                            echo "<option selected value='1'>Owner</option>";
+                                            echo "<option value='2'>Stok</option>";
+                                            echo "<option value='3'>Order</option>";
                                           }else{
-                                            echo "<option selected value=''>Pilih</option>";
-                                            echo "<option value='1'>Owner</option>";
-                                            echo "<option value='2'>Admin</option>";
+                                            echo "<option value=''>Pilih</option>";
+                                            echo "<option selected value='1'>Owner</option>";
+                                            echo "<option value='2'>Stok</option>";
+                                            echo "<option value='3'>Order</option>";
                                           }
                                         ?>
                                       </select>

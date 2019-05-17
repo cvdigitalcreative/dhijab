@@ -16,7 +16,7 @@
 		    $this->load->model('m_pemesanan');
 		    $this->load->model('m_barang');
 		    $this->load->model('m_list_barang');
-		    $this->load->library('upload'); 
+		    $this->load->library('upload');
 	  	}
 
 	  	function index(){
@@ -24,8 +24,8 @@
 	  			$y['title'] = "Stock";
 	  			$x['stock'] = $this->m_barang->getAllBarang();
 		       	$this->load->view('v_header',$y);
-		       	$this->load->view('order/v_sidebar');
-		       	$this->load->view('order/v_stock',$x);
+		       	$this->load->view('stok/v_sidebar');
+		       	$this->load->view('stok/v_stock',$x);
 		    }
 		    else{
 		       redirect('Login');
@@ -37,8 +37,8 @@
  	  			$y['title'] = "Stock";
 	 	  		   $x['stock'] = $this->m_barang->getHistoryStock($barang_id);	
 			       $this->load->view('v_header',$y);
-			       $this->load->view('order/v_sidebar');
-			       $this->load->view('order/v_history_stock',$x);
+			       $this->load->view('stok/v_sidebar');
+			       $this->load->view('stok/v_history_stock',$x);
 		       
 		    }
 		    else{
