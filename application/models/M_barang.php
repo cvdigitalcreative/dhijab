@@ -105,5 +105,10 @@
         	return $hasil;
 		}
 
+		function update_stock($barang_id,$stock)
+		{
+			return $this->db->query("UPDATE `barang` SET `barang_stock_awal`=`barang_stock_awal`+$stock WHERE `barang_id`=$barang_id");
+		}
+
 	}
 ?>
