@@ -39,7 +39,7 @@
 			       $this->load->view('v_header',$y);
 			       $this->load->view('stok/v_sidebar');
 			       $this->load->view('stok/v_history_stock',$x);
-		       
+		       echo 3;
 		    }
 		    else{
 		       redirect('Login');

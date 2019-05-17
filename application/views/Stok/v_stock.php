@@ -48,7 +48,7 @@
                       <td><center><?php echo $barang_stock_akhir?></center></td>
                       <td><center><?php echo $tanggal?></center></td>
                       <td>
-                          <center><a href="<?php echo base_url()?>Admin/Stock/History/<?php echo $barang_id?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock"><span class="ti-eye"></span></a></center>
+                          <center><a href="<?php echo base_url()?>Stok/Stock/History/<?php echo $barang_id?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock"><span class="ti-eye"></span></a></center>
                       </td>
                     </tr>
                     <?php endforeach;?>
@@ -57,7 +57,7 @@
           </div>
           </div>
         </div>   
-      </div>
+      </div>   
   </div>
 
     
