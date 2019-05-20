@@ -11,7 +11,7 @@ class stock extends CI_Controller
 		if ($this->session->userdata('masuk') != TRUE) {
 			$url = base_url('Login');
 			redirect($url);
-		};
+		}
 
 		$this->load->model('m_pemesanan');
 		$this->load->model('m_barang');

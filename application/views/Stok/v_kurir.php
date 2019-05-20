@@ -27,7 +27,8 @@
               <thead>
                   <tr>
                       <th width="20">No</th>
-                      <th>Kurir</th>
+                      <th>Nama Ekspedisi</th>
+                      <th>Tagihan Ekspedisi</th>
                       <th width="100"><center>Aksi</center></th>
                   </tr>
               </thead>
@@ -40,10 +41,12 @@
                     $kurir_id = $i['kurir_id'];
                     $kurir_nama = $i['kurir_nama'];
                     $kurir_tanggal = $i['kurir_tanggal'];
+                    $kurir_harga = $i['kurir_harga'];
                   ?>
                   <tr>
                      <td><center><?php echo $no?></center></td>
                       <td><?php echo $kurir_nama?></td>
+                      <td><?php echo $kurir_harga?></td>
                       <td>
                           <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $kurir_id?>"><span class="ti-pencil"></span></a>
                          <!--  <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata<?php echo $kurir_id?>"><span class="ti-trash"></span></a> -->
