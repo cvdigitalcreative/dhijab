@@ -27,7 +27,7 @@
 		       $x['metode_pembayaran'] = $this->m_pemesanan->getAllMetpem();
 		       $x['nonreseller'] = $this->m_barang->getDataNonReseller1();
 		       $x['reseller'] = $this->m_barang->getAllBarangR();
-		       $x['datapesanan'] = $this->m_pemesanan->getPemesananCurdate();
+		       $x['datapesanan'] = $this->m_pemesanan->getPemesanan();
 		       $this->load->view('v_header',$y);
 		       $this->load->view('admin/v_sidebar');
 		       $this->load->view('admin/v_pemesanan',$x);
@@ -318,6 +318,22 @@
 	  		$this->m_pemesanan->hapus_Metpem($id);
 	  		echo $this->session->set_flashdata('msg','delete');
 	       	redirect('Admin/Pemesanan/metode_pembayaran');
-	  	}
+		  }
+		  function status(){
+            $pemesanan_id = $this->input->post('pemesanan_id');
+            $status_pemesanan=$this->input->post('status_pemesanan');;
+            if($status_pemesanan==0)
+            {
+            $status_pemesanan=1;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+            else if($status_pemesanan==1)
+            {
+            $status_pemesanan=2;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+             redirect('Admin/pemesanan');	
+        
+        }
 	}
 ?>
