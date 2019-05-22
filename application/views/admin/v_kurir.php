@@ -19,7 +19,7 @@
           <div class="card-body">
             <div class="col-xl-12 mb-10">
               <a href="" data-toggle="modal" data-target="#kurir" class="btn btn-primary btn-block ripple m-t-20">
-                  <i class="fa fa-plus pr-2"></i> Tambah Kurir
+                  <i class="fa fa-plus pr-2"></i> Tambah Ekspedisi
               </a>
             </div>
             <div class="table-responsive">

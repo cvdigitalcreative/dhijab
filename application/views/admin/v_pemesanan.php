@@ -43,7 +43,7 @@
                   <th width="10">Tanggal Pesanan</th>
                   <th>No HP</th>
                   <th>Alamat</th>
-                  <th>Kurir</th>
+                  <th>Ekspedisi</th>
                   <th>Asal Transaksi</th>
                   <th>Metode Pembayaran</th>
                   <th>Total Harga</th>
