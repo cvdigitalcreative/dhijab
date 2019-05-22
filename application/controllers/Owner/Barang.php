@@ -419,7 +419,23 @@
 		    else{
 		       redirect('Login');
 		    }
- 	  	}
+           }
+        function status(){
+            $pemesanan_id = $this->input->post('pemesanan_id');
+            $status_pemesanan=$this->input->post('status_pemesanan');;
+            if($status_pemesanan==0)
+            {
+            $status_pemesanan=1;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+            else if($status_pemesanan==1)
+            {
+            $status_pemesanan=2;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+             redirect('Owner/Barang/pemesanan');	
+        
+        }
 
 
 	}

@@ -48,6 +48,7 @@
                       <th>Metode Pembayaran</th>
                       <th>Total Harga</th>
                       <th>List Barang</th> 
+                      <th>Status</th> 
                       <th width="50"><center>Aksi</center></th>
                   </tr>
               </thead>

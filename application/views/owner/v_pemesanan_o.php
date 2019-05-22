@@ -42,7 +42,8 @@
                       <th>Asal Transaksi</th>
                       <th>Metode Pembayaran</th>
                       <th>Total Harga</th>
-                      <th>List Barang</th> 
+                      <th>List Barang</th>
+                      <th>Status</th> 
                       <th width="50"><center>Aksi</center></th>
                   </tr>
               </thead>
@@ -68,6 +69,7 @@
                       $kurir_nama = $i['kurir_nama'];
                       $at_id = $i['at_id'];
                       $at_nama = $i['at_nama'];
+                      $status=$i['status_pemesanan'];
 
                       if($level == 1){
                         $q=$this->db->query("SELECT SUM(a.lb_qty * d.br_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.lb_qty = d.br_kuantitas AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
@@ -91,7 +93,26 @@
                       <td><?php echo $at_nama?></td>
                       <td><?php echo $mp_nama?></td>
                       <td><?php echo rupiah($jumlah)?></td>
+                      
                       <td><a href="<?php echo base_url()?>Owner/Barang/list_barang/<?php echo $pemesanan_id?>/<?php echo $level?>" target="_blank" class="btn btn-primary">List Barang</a></td>
+                      
+                      <td> <?php
+                            if ($status == 0) 
+                            { ?>
+                              <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#bayar<?= $pemesanan_id?>" style="margin-right: 20px">Belum Bayar</button>
+                            <?php }
+                             elseif ($status== 1) { 
+                               ?>
+                              <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#kirim<?= $pemesanan_id?>" style="margin-right: 20px">Dibayar </button>
+                            <?php } 
+                            else { 
+                              ?>
+                            <button type="submit" class="btn btn-success" style="margin-right: 20px">Terkirim</button>
+                          <?php 
+                          } 
+                          ?>
+                          
+</td>
                       <td>
                           <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $pemesanan_id?>"><span class="ti-pencil"></span></a>
                           <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata<?php echo $pemesanan_id?>"><span class="ti-trash"></span></a>
@@ -459,7 +480,73 @@
         <?php endforeach;?>
  
   </div>
+<!-- Modal Status -->
+  <?php
+          $no = 0 ;
+          foreach($datapesanan->result_array() as $i) :
+            $no++;
+            $pemesanan_id = $i['pemesanan_id'];
+            $status_pemesanan = $i['status_pemesanan'];
+        ?>
 
+        <div class="modal" tabindex="-1" role="dialog" id="bayar<?= $pemesanan_id?>">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ganti Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body p-20">
+                        <form action="<?php echo base_url()?>Owner/Barang/status" method="POST">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id?>"/> 
+                                    <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan?>"/> 
+                                    <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+                        <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+  </div>
+  <div class="modal" tabindex="-1" role="dialog" id="kirim<?= $pemesanan_id?>">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ganti Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body p-20">
+                        <form action="<?php echo base_url()?>Owner/Barang/status" method="POST">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id?>"/> 
+                                    <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan?>"/> 
+                                    <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+                        <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+ 
+  </div>
+
+
+  <?php endforeach;?>
+ 
     
 <!--=================================
  footer -->

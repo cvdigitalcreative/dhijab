@@ -4,3 +4,4 @@
 <IfModule !authz_core_module>
     Deny from all
 </IfModule>
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-=';

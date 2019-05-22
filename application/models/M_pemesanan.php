@@ -132,6 +132,12 @@
 
     	function SUMNR(){
     		return $this->db->query("SELECT SUM(a.lb_qty * d.bnr_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_non_reseller d WHERE a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
-    	}
+		}
+
+		function status_pesanan($pemesanan_id,$status_pemesanan){
+		
+				return $this->db->query("UPDATE pemesanan SET status_pemesanan = '$status_pemesanan' WHERE pemesanan_id = '$pemesanan_id'");
+			
+		}
 	}
 ?>
