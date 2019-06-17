@@ -19,23 +19,24 @@
 		    $this->load->library('upload');
 	  	}
 
+	  	
 	  	function index(){
-	  		if($this->session->userdata('akses') == 3 && $this->session->userdata('masuk') == true){
-		       $y['title'] = "Pemesanan";
-		       $x['asal_transaksi'] = $this->m_pemesanan->getAllAT();
-		       $x['kurir'] = $this->m_pemesanan->getAllkurir();
-		       $x['metode_pembayaran'] = $this->m_pemesanan->getAllMetpem();
-		       $x['nonreseller'] = $this->m_barang->getDataNonReseller1();
-		       $x['reseller'] = $this->m_barang->getAllBarangR();
-		       $x['datapesanan'] = $this->m_pemesanan->getPemesananCurdate();
-		       $this->load->view('v_header',$y);
-		       $this->load->view('stok/v_sidebar');
-		       $this->load->view('stok/v_pemesanan',$x);
-		    }
-		    else{
-		       redirect('Login');
-		    }
-	  	}
+			if($this->session->userdata('akses') == 2 && $this->session->userdata('masuk') == true){
+			 $y['title'] = "Pemesanan";
+			 $x['asal_transaksi'] = $this->m_pemesanan->getAllAT();
+			 $x['kurir'] = $this->m_pemesanan->getAllkurir();
+			 $x['metode_pembayaran'] = $this->m_pemesanan->getAllMetpem();
+			 $x['nonreseller'] = $this->m_barang->getDataNonReseller1();
+			 $x['reseller'] = $this->m_barang->getAllBarangR();
+			 $x['datapesanan'] = $this->m_pemesanan->getPemesanan();
+			 $this->load->view('v_header',$y);
+			 $this->load->view('admin/v_sidebar');
+			 $this->load->view('admin/v_pemesanan',$x);
+		  }
+		  else{
+			 redirect('Login');
+		  }
+		}
 
  	  	function Cetak_Invoice($pemesanan_id){
  	  		$level = $this->uri->segment(5);
@@ -68,7 +69,7 @@
 	  	function kurir(){
 	  		if($this->session->userdata('akses') == 3 && $this->session->userdata('masuk') == true){
 		       $y['title'] = "Kurir";
-		       $x['kurir'] = $this->m_pemesanan->getAllkurir();
+			   $x['datapesanan'] = $this->m_pemesanan->getPemesanan();
 		       $this->load->view('v_header',$y);
 		       $this->load->view('stok/v_sidebar');
 		       $this->load->view('stok/v_kurir',$x);
@@ -100,6 +101,17 @@
 	       	redirect('Stok/Pemesanan/kurir');
 	  	}
 
+		  function status(){
+            $pemesanan_id = $this->input->post('pemesanan_id');
+            $status_eks=$this->input->post('status_eks');;
+            if($status_eks==0)
+            {
+            $status_eks=1;
+            $this->m_pemesanan->status_eks($pemesanan_id,$status_eks);
+					}
+             redirect('Stok/Pemesanan/Kurir');	
+        
+        }
 
 }
 ?>

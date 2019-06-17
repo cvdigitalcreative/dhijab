@@ -139,5 +139,11 @@
 				return $this->db->query("UPDATE pemesanan SET status_pemesanan = '$status_pemesanan' WHERE pemesanan_id = '$pemesanan_id'");
 			
 		}
+		function status_eks($pemesanan_id,$status_eks){
+		
+			return $this->db->query("UPDATE pemesanan SET status_eks = '$status_eks' WHERE pemesanan_id = '$pemesanan_id'");
+		
+	}
+	
 	}
 ?>

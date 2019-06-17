@@ -12,146 +12,199 @@
           </div>
         </div>
     </div>
-    <!-- main body --> 
-    <div class="row">   
-      <div class="col-xl-12 mb-30">     
-        <div class="card card-statistics h-100"> 
-          <div class="card-body">
-            <div class="col-xl-12 mb-10">
-              <a href="" data-toggle="modal" data-target="#kurir" class="btn btn-primary btn-block ripple m-t-20">
-                  <i class="fa fa-plus pr-2"></i> Tambah Kurir
+    <div class="row">
+    <div class="col-xl-12 mb-30">
+      <div class="card card-statistics h-100">
+        <div class="card-body">
+          <div class="col-xl-12 mb-10" style="display: flex">
+            <div class="col-md-4">
+              <a href="" data-toggle="modal" data-target="#tambah-pesanan-non-reseller" class="btn btn-primary btn-block ripple m-t-20">
+                <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Customer
               </a>
             </div>
-            <div class="table-responsive">
+            <div class="col-md-4">
+              <a href="" data-toggle="modal" data-target="#reseller" class="btn btn-primary btn-block ripple m-t-20">
+                <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Reseller
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="<?= base_url() ?>Owner/Transaksi/cetak_transaksi" target="blank" class="btn btn-success btn-block ripple m-t-20">
+                <i class="fa fa-print pr-2"></i> Cetak
+              </a>
+            </div>
+          </div>
+          <div class="table-responsive">
             <table id="datatable" class="table table-striped table-bordered p-0">
               <thead>
-                  <tr>
-                      <th width="20">No</th>
-                      <th>Nama Ekspedisi</th>
-                      <th>Tagihan Ekspedisi</th>
-                      <th width="100"><center>Aksi</center></th>
-                  </tr>
+                <tr>
+                  <th width="5">No</th>
+                  <th>Nama Pemesan</th>
+                  <th width="10">Tanggal Pesanan</th>
+                  <th>No HP</th>
+                  <th>Ekspedisi</th>
+
+                  <th>Status</th>
+                  <th>Ongkos kirim</th>
+                  <th>Total Harga</th>
+                  <th>Note</th>
+                  <th width="50">
+                    <center>Aksi</center>
+                  </th>
+                </tr>
               </thead>
               <tbody>
-                <?php 
-                $no =0;
+                <?php
+                function rupiah($angka)
+                {
+                  $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
+                  return $hasil_rupiah;
+                }
 
-                foreach($kurir->result_array() as $i) {
-                    $no++;
-                    $kurir_id = $i['kurir_id'];
-                    $kurir_nama = $i['kurir_nama'];
-                    $kurir_tanggal = $i['kurir_tanggal'];
-                    $kurir_harga = $i['kurir_harga'];
+                $no = 0;
+                $total=0;
+                foreach ($datapesanan->result_array() as $i) :
+                  $no++;
+
+                  $pemesanan_id = $i['pemesanan_id'];
+                  $pemesanan_nama = $i['pemesanan_nama'];
+                  $tanggal = $i['tanggal'];
+                  $hp = $i['pemesanan_hp'];
+                  $alamat = $i['pemesanan_alamat'];
+                  $kurir_id = $i['kurir_id'];
+                  $ongkir = $i['ongkir'];
+                  $mp_id1 = $i['mp_id'];
+                  $mp_nama = $i['mp_nama'];
+                  $level = $i['level'];
+                  $kurir_nama = $i['kurir_nama'];
+                  $at_id = $i['at_id'];
+                  $at_nama = $i['at_nama'];
+                  $status = $i['status_eks'];
+                  $uang = $i['uang_masuk'];
+                  $note = $i['note'];
+
+                  if ($level == 1) {
+                    $q = $this->db->query("SELECT SUM(a.lb_qty * d.br_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.lb_qty = d.br_kuantitas AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
+                    $c = $q->row_array();
+                    $jumlah = $c['total_keseluruhan'] + $ongkir;
+                    $kembalian = $uang - $jumlah;
+                  } elseif ($level == 2) {
+                    $q = $this->db->query("SELECT SUM(a.lb_qty * d.bnr_harga)AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_non_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
+                    $c = $q->row_array();
+                    $jumlah = $c['total_keseluruhan'] + $ongkir;
+                    $kembalian = $uang - $jumlah;
+                  }
+
+
                   ?>
                   <tr>
-                     <td><center><?php echo $no?></center></td>
-                      <td><?php echo $kurir_nama?></td>
-                      <td><?php echo $kurir_harga?></td>
-                      <td>
-                          <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $kurir_id?>"><span class="ti-pencil"></span></a>
-                         <!--  <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata<?php echo $kurir_id?>"><span class="ti-trash"></span></a> -->
-                      </td>
-                    </tr>
-                  <?php }?>
+                    <td>
+                      <center><?php echo $no ?></center>
+                    </td>
+                    <td><?php echo $pemesanan_nama ?></td>
+                    <td><?php echo $tanggal ?></td>
+                    <td><?php echo $hp ?></td>
+                    <td><?php echo $kurir_nama ?></td>
+                    
+                    <td>
+
+                      <?php
+                      if ($status == 0) { ?>
+                        <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#lunas<?= $pemesanan_id ?>" style="margin-right: 20px">Belum Lunas</button>
+                      <?php } elseif ($status == 1) {
+                      ?>
+                        <button type="submit" class="btn btn-primary"  style="margin-right: 20px">Lunas </button>
+                      <?php 
+                      }
+                    ?>
+                    </td>
+
+                   
+                    <td><?php echo rupiah($ongkir) ?></td>
+                    <td><?php echo rupiah($jumlah) ?></td>
+                    <td><?php echo $note ?></td>
+                    <?php 
+                    $total=$total+$jumlah;
+                    ?>
+                    <td>
+                      <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $pemesanan_id ?>"><span class="ti-pencil"></span></a>
+                      <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata<?php echo $pemesanan_id ?>"><span class="ti-trash"></span></a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+                
               </tbody>
-           </table>
+            </table>
           </div>
-          </div>
-        </div>   
+        </div>
       </div>
+    </div>
 
-       <!-- Modal Add Barang Reseller-->
-        <div class="modal" tabindex="-1" role="dialog" id="kurir">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Tambah Kurir</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <form action="<?php echo base_url()?>Stok/Pemesanan/savekurir" method="post" enctype="multipart/form-data">
-                    <div class="modal-body p-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="control-label">Nama Kurir</label>
-                                    <input class="form-control form-white" type="text" name="kurir_nama" required />
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+ <!-- Modal Status -->
+ <?php
+  $no = 0;
+  foreach ($datapesanan->result_array() as $i) :
+    $no++;
+    $pemesanan_id = $i['pemesanan_id'];
+    $status_eks = $i['status_eks'];
+    ?>
 
-        <?php  foreach($kurir->result_array() as $i) :
-                    $no++;
-                    $kurir_id = $i['kurir_id'];
-                    $kurir_nama = $i['kurir_nama'];
-                    $kurir_tanggal = $i['kurir_tanggal'];
-        ?>
-        <!-- Modal edit Data -->
-          <div class="modal" tabindex="-1" role="dialog" id="editdata<?php echo $kurir_id?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Data</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <form action="<?php echo base_url()?>Stok/Pemesanan/updatekurir" method="post" enctype="multipart/form-data">
-                    <div class="modal-body p-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="control-label">Nama Kurir</label>
-                                    <input type="hidden" name="kurir_id" value="<?php echo $kurir_id?>">
-                                    <input class="form-control form-white" type="text" name="kurir_nama" value="<?php echo $kurir_nama?>" required/>
-                                </div>
-                            </div>          
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
-                    </div>
-                    </form>
+    <div class="modal" tabindex="-1" role="dialog" id="lunas<?= $pemesanan_id ?>">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Ganti Status</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body p-20">
+            <form action="<?php echo base_url() ?>Stok/Pemesanan/status" method="POST">
+              <div class="row">
+                <div class="col-md-12">
+                  <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
+                  <input type="hidden" name="status_eks" value="<?php echo $status_eks ?>" />
+                  <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
                 </div>
-            </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+            <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+          </div>
+          </form>
         </div>
-        <?php endforeach;?>
+      </div>
+    </div>
 
-        <?php foreach($kurir->result_array() as $i) :
-                    $no++;
-                    $kurir_id = $i['kurir_id'];
-                    $kurir_nama = $i['kurir_nama'];
-                    $kurir_tanggal = $i['kurir_tanggal'];
-                  ?>
-        <div class="modal" tabindex="-1" role="dialog" id="hapusdata<?php echo $kurir_id?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Hapus Barang</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body p-20">
-                        <form action="<?php echo base_url()?>Stok/Pemesanan/hapuskurir" method="post">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input type="hidden" name="kurir_id" value="<?php echo $kurir_id?>"/> 
-                                    <p>Apakah kamu yakin ingin menghapus data ini?</i></b></p>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
-                        <button type="submit" class="btn btn-success ripple save-category">Ya</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php endforeach;?>
   </div>
+  <div class="modal" tabindex="-1" role="dialog" id="kirim<?= $pemesanan_id ?>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ganti Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body p-20">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+            <div class="row">
+              <div class="col-md-12">
+                <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
+                <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan ?>" />
+                <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+          <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+
+<?php endforeach; ?>
 
     
 <!--=================================

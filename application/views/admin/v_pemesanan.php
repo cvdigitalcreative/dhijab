@@ -46,10 +46,11 @@
                   <th>Ekspedisi</th>
                   <th>Asal Transaksi</th>
                   <th>Metode Pembayaran</th>
-                  <th>Total Harga</th>
-                  <th>Uang Kembalian</th>
                   <th>List Barang</th>
                   <th>Status</th>
+                  <th>Uang Kembalian</th>
+                  <th>Ongkos kirim</th>
+                  <th>Total Harga</th>
                   <th>Note</th>
                   <th width="50">
                     <center>Aksi</center>
@@ -65,34 +66,37 @@
                 }
 
                 $no = 0;
+                $total=0;
                 foreach ($datapesanan->result_array() as $i) :
                   $no++;
+
                   $pemesanan_id = $i['pemesanan_id'];
                   $pemesanan_nama = $i['pemesanan_nama'];
                   $tanggal = $i['tanggal'];
                   $hp = $i['pemesanan_hp'];
                   $alamat = $i['pemesanan_alamat'];
                   $kurir_id = $i['kurir_id'];
+                  $ongkir = $i['ongkir'];
                   $mp_id1 = $i['mp_id'];
                   $mp_nama = $i['mp_nama'];
                   $level = $i['level'];
                   $kurir_nama = $i['kurir_nama'];
                   $at_id = $i['at_id'];
                   $at_nama = $i['at_nama'];
-                  $status=$i['status_pemesanan'];
-                  $uang=$i['uang_masuk'];
-                  $note=$i['note'];
+                  $status = $i['status_pemesanan'];
+                  $uang = $i['uang_masuk'];
+                  $note = $i['note'];
 
                   if ($level == 1) {
                     $q = $this->db->query("SELECT SUM(a.lb_qty * d.br_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.lb_qty = d.br_kuantitas AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
                     $c = $q->row_array();
-                    $jumlah = $c['total_keseluruhan'];
-                    $kembalian=$uang-$jumlah;
+                    $jumlah = $c['total_keseluruhan'] + $ongkir;
+                    $kembalian = $uang - $jumlah;
                   } elseif ($level == 2) {
-                    $q = $this->db->query("SELECT SUM(a.lb_qty * d.bnr_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_non_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
+                    $q = $this->db->query("SELECT SUM(a.lb_qty * d.bnr_harga)AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_non_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
                     $c = $q->row_array();
-                    $jumlah = $c['total_keseluruhan'];
-                    $kembalian=$uang-$jumlah;
+                    $jumlah = $c['total_keseluruhan'] + $ongkir;
+                    $kembalian = $uang - $jumlah;
                   }
 
 
@@ -108,8 +112,7 @@
                     <td><?php echo $kurir_nama ?></td>
                     <td><?php echo $at_nama ?></td>
                     <td><?php echo $mp_nama ?></td>
-                    <td><?php echo rupiah($jumlah) ?></td>
-                    <td><?php echo rupiah($kembalian) ?></td>
+
                     <td><a href="<?php echo base_url() ?>Admin/Pemesanan/list_barang/<?php echo $pemesanan_id ?>/<?php echo $level ?>" target="_blank" class="btn btn-primary">List Barang</a></td>
                     <td>
 
@@ -126,14 +129,24 @@
                     }
                     ?>
                     </td>
-                    <td><?php echo $note ?></td>
 
+                    <td><?php echo rupiah($kembalian) ?></td>
+                    <td><?php echo rupiah($ongkir) ?></td>
+                    <td><?php echo rupiah($jumlah) ?></td>
+                    <td><?php echo $note ?></td>
+                    <?php 
+                  $total=$total+$jumlah;
+                    ?>
                     <td>
                       <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $pemesanan_id ?>"><span class="ti-pencil"></span></a>
                       <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata<?php echo $pemesanan_id ?>"><span class="ti-trash"></span></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
+                <tr>
+                      <th colspan="12"><center>Jumlah</center></th>
+                      <th><?php echo rupiah($total)?></th>
+                    </tr>
               </tbody>
             </table>
           </div>
@@ -350,7 +363,7 @@
                       <label class="control-label" for="harga">Jumlah</label>
                       <input class="form-control" type="number" name="qty[]" required>
                     </div>
-                    
+
                   </div>
                 </div>
                 <div class="col-md-12 mt-30">
@@ -405,9 +418,9 @@
                     <input class="form-control form-white" type="number" name="hp" value="<?php echo $hp ?>" required />
                   </div>
                   <!--                                <div class="col-md-12">
-                                      <label class="control-label">Tanggal</label>
-                                      <input class="form-control form-white" type="date" name="tanggal"/>
-                                  </div> -->
+                                                  <label class="control-label">Tanggal</label>
+                                                  <input class="form-control form-white" type="date" name="tanggal"/>
+                                              </div> -->
                   <div class="col-md-12">
                     <label class="control-label">Alamat</label>
                     <input class="form-control form-white" type="text" name="alamat" value="<?php echo $alamat ?>" required />
@@ -516,96 +529,96 @@
 
   <!-- Modal Status -->
   <?php
-          $no = 0 ;
-          foreach($datapesanan->result_array() as $i) :
-            $no++;
-            $pemesanan_id = $i['pemesanan_id'];
-            $status_pemesanan = $i['status_pemesanan'];
-        ?>
+  $no = 0;
+  foreach ($datapesanan->result_array() as $i) :
+    $no++;
+    $pemesanan_id = $i['pemesanan_id'];
+    $status_pemesanan = $i['status_pemesanan'];
+    ?>
 
-        <div class="modal" tabindex="-1" role="dialog" id="bayar<?= $pemesanan_id?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ganti Status</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body p-20">
-                        <form action="<?php echo base_url()?>Admin/Pemesanan/status" method="POST">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id?>"/> 
-                                    <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan?>"/> 
-                                    <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
-                        <button type="submit" class="btn btn-success ripple save-category">Ya</button>
-                    </div>
-                    </form>
+    <div class="modal" tabindex="-1" role="dialog" id="bayar<?= $pemesanan_id ?>">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Ganti Status</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body p-20">
+            <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+              <div class="row">
+                <div class="col-md-12">
+                  <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
+                  <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan ?>" />
+                  <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
                 </div>
-            </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+            <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+          </div>
+          </form>
         </div>
- 
-  </div>
-  <div class="modal" tabindex="-1" role="dialog" id="kirim<?= $pemesanan_id?>">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ganti Status</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body p-20">
-                        <form action="<?php echo base_url()?>Admin/Pemesanan/status" method="POST">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id?>"/> 
-                                    <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan?>"/> 
-                                    <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
-                        <button type="submit" class="btn btn-success ripple save-category">Ya</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
- 
-  </div>
-
-
-  <?php endforeach;?>
- 
-
-
-  <!--=================================
- footer -->
-
-  <footer class="bg-white p-4">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="text-center text-md-left">
-          <p class="mb-0"> &copy; Copyright <span id="copyright">
-              <script>
-                document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-              </script>
-            </span>. <a href="#"> Webmin </a> All Rights Reserved. </p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <ul class="text-center text-md-right">
-          <li class="list-inline-item"><a href="#">Terms & Conditions </a> </li>
-          <li class="list-inline-item"><a href="#">API Use Policy </a> </li>
-          <li class="list-inline-item"><a href="#">Privacy Policy </a> </li>
-        </ul>
       </div>
     </div>
-  </footer>
+
+  </div>
+  <div class="modal" tabindex="-1" role="dialog" id="kirim<?= $pemesanan_id ?>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ganti Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body p-20">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+            <div class="row">
+              <div class="col-md-12">
+                <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
+                <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan ?>" />
+                <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+          <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+
+<?php endforeach; ?>
+
+
+
+<!--=================================
+ footer -->
+
+<footer class="bg-white p-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="text-center text-md-left">
+        <p class="mb-0"> &copy; Copyright <span id="copyright">
+            <script>
+              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+            </script>
+          </span>. <a href="#"> Webmin </a> All Rights Reserved. </p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <ul class="text-center text-md-right">
+        <li class="list-inline-item"><a href="#">Terms & Conditions </a> </li>
+        <li class="list-inline-item"><a href="#">API Use Policy </a> </li>
+        <li class="list-inline-item"><a href="#">Privacy Policy </a> </li>
+      </ul>
+    </div>
+  </div>
+</footer>
 </div>
 </div>
 </div>
