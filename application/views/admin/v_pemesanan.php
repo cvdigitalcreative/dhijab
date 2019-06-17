@@ -47,8 +47,10 @@
                   <th>Asal Transaksi</th>
                   <th>Metode Pembayaran</th>
                   <th>Total Harga</th>
+                  <th>Uang Kembalian</th>
                   <th>List Barang</th>
                   <th>Status</th>
+                  <th>Note</th>
                   <th width="50">
                     <center>Aksi</center>
                   </th>
@@ -78,15 +80,19 @@
                   $at_id = $i['at_id'];
                   $at_nama = $i['at_nama'];
                   $status=$i['status_pemesanan'];
+                  $uang=$i['uang_masuk'];
+                  $note=$i['note'];
 
                   if ($level == 1) {
                     $q = $this->db->query("SELECT SUM(a.lb_qty * d.br_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.lb_qty = d.br_kuantitas AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
                     $c = $q->row_array();
                     $jumlah = $c['total_keseluruhan'];
+                    $kembalian=$uang-$jumlah;
                   } elseif ($level == 2) {
                     $q = $this->db->query("SELECT SUM(a.lb_qty * d.bnr_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_non_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
                     $c = $q->row_array();
                     $jumlah = $c['total_keseluruhan'];
+                    $kembalian=$uang-$jumlah;
                   }
 
 
@@ -103,6 +109,7 @@
                     <td><?php echo $at_nama ?></td>
                     <td><?php echo $mp_nama ?></td>
                     <td><?php echo rupiah($jumlah) ?></td>
+                    <td><?php echo rupiah($kembalian) ?></td>
                     <td><a href="<?php echo base_url() ?>Admin/Pemesanan/list_barang/<?php echo $pemesanan_id ?>/<?php echo $level ?>" target="_blank" class="btn btn-primary">List Barang</a></td>
                     <td>
 
@@ -119,6 +126,7 @@
                     }
                     ?>
                     </td>
+                    <td><?php echo $note ?></td>
 
                     <td>
                       <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $pemesanan_id ?>"><span class="ti-pencil"></span></a>
@@ -133,7 +141,7 @@
       </div>
     </div>
 
-    <!-- Modal Add Barang Reseller-->
+    <!-- Modal Pesanan NonReseller-->
     <div class="modal" tabindex="-1" role="dialog" id="tambah-pesanan-non-reseller">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -161,6 +169,10 @@
                   <input class="form-control form-white" type="text" name="alamat" required />
                 </div>
                 <div class="col-md-12">
+                  <label class="control-label">Uang Customer</label>
+                  <input class="form-control form-white" type="text" name="uang" required />
+                </div>
+                <div class="col-md-12">
                   <label class="control-label">Asal Transaksi</label>
                   <select class="form-control" name="at" required>
                     <option selected value="">Pilih</option>
@@ -175,7 +187,7 @@
                   </select>
                 </div>
                 <div class="col-md-12">
-                  <label class="control-label">Kurir</label>
+                  <label class="control-label">Jenis Ekspedisi</label>
                   <select class="form-control" name="kurir" required>
                     <option selected value="">Pilih</option>
                     <?php
@@ -189,7 +201,7 @@
                   </select>
                 </div>
                 <div class="col-md-12">
-                  <label class="control-label">Metode_Pembayaran</label>
+                  <label class="control-label">Jenis Pembayaran</label>
                   <select class="form-control" name="metpem" required>
                     <option selected value="">Pilih</option>
                     <?php
@@ -201,6 +213,10 @@
                       <option value="<?php echo $mp_id ?>"><?php echo $mp_nama ?></option>
                     <?php endforeach; ?>
                   </select>
+                </div>
+                <div class="col-md-12">
+                  <label class="control-label">Note</label>
+                  <input class="form-control form-white" type="text" name="" required />
                 </div>
                 <div class="form-group col-md-12 mt-10" id="dynamic_field">
                   <div class="row">
@@ -218,7 +234,7 @@
                       </select>
                     </div>
                     <div class="col-md-2">
-                      <label class="control-label" for="harga">Jumlah</label>
+                      <label class="control-label" for="harga">Kuantitas</label>
                       <input class="form-control" type="number" name="qty[]" required>
                     </div>
                   </div>
@@ -237,7 +253,7 @@
       </div>
     </div>
 
-    <!-- Modal Add Barang Reseller-->
+    <!-- Modal Pesanan Reseller-->
     <div class="modal" tabindex="-1" role="dialog" id="reseller">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -265,6 +281,11 @@
                   <input class="form-control form-white" type="text" name="alamat" required />
                 </div>
                 <div class="col-md-12">
+                  <label class="control-label">Uang Customer</label>
+                  <input class="form-control form-white" type="text" name="uang" required />
+                </div>
+
+                <div class="col-md-12">
                   <label class="control-label">Asal Transaksi</label>
                   <select class="form-control" name="at" required>
                     <option selected value="">Pilih</option>
@@ -279,7 +300,7 @@
                   </select>
                 </div>
                 <div class="col-md-12">
-                  <label class="control-label">Kurir</label>
+                  <label class="control-label">Jenis Ekspedisi</label>
                   <select class="form-control" name="kurir" required>
                     <option selected value="">Pilih</option>
                     <?php
@@ -293,7 +314,7 @@
                   </select>
                 </div>
                 <div class="col-md-12">
-                  <label class="control-label">Metode Pembayaran</label>
+                  <label class="control-label">Jenis Pembayaran</label>
                   <select class="form-control" name="metpem" required>
                     <option selected value="">Pilih</option>
                     <?php
@@ -305,6 +326,10 @@
                       <option value="<?php echo $mp_id ?>"><?php echo $mp_nama ?></option>
                     <?php endforeach; ?>
                   </select>
+                </div>
+                <div class="col-md-12">
+                  <label class="control-label">Note</label>
+                  <input class="form-control form-white" type="text" name="" required />
                 </div>
                 <div class="form-group col-md-12 mt-10" id="dynamic_field1">
                   <div class="row">
@@ -325,6 +350,7 @@
                       <label class="control-label" for="harga">Jumlah</label>
                       <input class="form-control" type="number" name="qty[]" required>
                     </div>
+                    
                   </div>
                 </div>
                 <div class="col-md-12 mt-30">

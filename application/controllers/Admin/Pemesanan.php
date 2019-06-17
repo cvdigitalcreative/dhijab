@@ -44,12 +44,13 @@
 	  		$asal_transaksi = $this->input->post('at');
 	  		$kurir = $this->input->post('kurir');
 	  		$metpem = $this->input->post('metpem');
-	  		$tanggal = $this->input->post('tanggal');
+			$tanggal = $this->input->post('tanggal');
+			$uang = $this->input->post('uang');
 	  		$level = 2;
 	  		$barang_id = $this->input->post('barang');
 	  		$qty = $this->input->post('qty');
 
-	  		$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem);
+	  		$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang);
 			$x=$this->m_pemesanan->getIdbyName($nama_pemesan);
 			$z=$x->row_array();
 			$pemesanan_id=$z['pemesanan_id'];

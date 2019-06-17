@@ -13,7 +13,7 @@
           <a href="<?php echo base_url()?>Stok/Stock"><i class="ti-calendar"></i><span class="right-nav-text">Stock</span> </a>
         </li>
         <li>
-          <a href="<?php echo base_url()?>Stok/Pemesanan/Kurir"><i class="ti-calendar"></i><span class="right-nav-text">Ekspedisi</span> </a>
+          <a href="<?php echo base_url()?>Stok/Pemesanan/Kurir"><i class="ti-calendar"></i><span class="right-nav-text">Tagihan Ekspedisi</span> </a>
         </li>
         <li>
           <a href="<?php echo base_url()?>"><i class="ti-calendar"></i><span class="right-nav-text">History Ekspedisi</span> </a>

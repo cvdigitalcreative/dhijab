@@ -9,10 +9,10 @@
          <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">Website Components</li>
         <!-- All Form  --> 
         <li>
-          <a href="<?php echo base_url()?>Admin/Pemesanan"><i class="ti-calendar"></i><span class="right-nav-text">Pemesanan</span> </a>
+          <a href="<?php echo base_url()?>Admin/Pemesanan"><i class="ti-calendar"></i><span class="right-nav-text">History Ordering</span> </a>
         </li>
 
-        <li>
+        <!-- <li>
           <a href="<?php echo base_url()?>Admin/Pemesanan/Asal_Transaksi"><i class="ti-calendar"></i><span class="right-nav-text">Asal Transaksi</span> </a>
         </li>
         <li>
@@ -22,7 +22,15 @@
         <li>
           <a href="<?php echo base_url()?>Admin/Pemesanan/metode_pembayaran"><i class="ti-calendar"></i><span class="right-nav-text">Metode Pembayaran</span> </a>
         </li>
+         -->
+         <li>
+          <a href="<?php echo base_url()?>Admin/Stock"><i class="ti-calendar"></i><span class="right-nav-text">Stock</span> </a>
+        </li>
         
+        <li>
+          <a href="<?php echo base_url()?>Admin/Pemesanan/metode_pembayaran"><i class="ti-calendar"></i><span class="right-nav-text">Ordering Produksi</span> </a>
+        </li>
+
          <!-- <li>
           <a href="javascript:void(0);" data-toggle="collapse" data-target="#Barang">
             <div class="pull-left"><i class="ti-files"></i><span class="right-nav-text">Barang</span></div>

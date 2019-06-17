@@ -19,13 +19,16 @@
           </ul>
         </li>
         <li>
-          <a href="<?php echo base_url()?>Owner/Transaksi"><i class="ti-calendar"></i><span class="right-nav-text">Transaksi</span> </a>
+          <a href="<?php echo base_url()?>Owner/Transaksi"><i class="ti-calendar"></i><span class="right-nav-text">History Transaksi</span> </a>
         </li>
         <li>
           <a href="<?php echo base_url()?>Owner/Barang/pemesanan"><i class="ti-world"></i><span class="right-nav-text">Pemesanan</span> </a>
         </li>
         <li>
-          <a href="<?php echo base_url()?>Owner/Stock"><i class="ti-calendar"></i><span class="right-nav-text">Stock</span> </a>
+          <a href="<?php echo base_url()?>Owner/Stock"><i class="ti-calendar"></i><span class="right-nav-text">History Stock</span> </a>
+        </li>
+        <li>
+          <a href="<?php echo base_url()?>Owner/User"><i class="ti-calendar"></i><span class="right-nav-text">Laporan Keuangan</span> </a>
         </li>
         <li>
           <a href="<?php echo base_url()?>Owner/User"><i class="ti-user"></i><span class="right-nav-text">User</span> </a>

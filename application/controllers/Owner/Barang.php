@@ -43,7 +43,7 @@
 		       $x['datapesanan'] = $this->m_pemesanan->getPemesanan();
 		       $this->load->view('v_header',$y);
 		       $this->load->view('owner/v_sidebar');
-		       $this->load->view('owner/v_pemesanan_o',$x);
+		        $this->load->view('owner/v_pemesanan_o',$x);
 		    }
 		    else{
 		       redirect('Login');
