@@ -34,6 +34,7 @@
                       <th>Harga Modal</th>
                       <th>Harga Customer</th> 
                       <th>Tanggal Input</th>
+                      <th>Jenis barang</th>
                       <th>Diskon</th>
                       <th width="100"><center>Aksi</center></th>
                   </tr>
@@ -60,6 +61,7 @@
                     $bnr_id = $i['bnr_id'];
                     $harga_normal = $i['bnr_harga'];
                     $diskon = $i['diskon'];
+                    $jenis_barang = $i['jenis_barang'];
                   ?>
                   <tr>
                       <td><center><?php echo $no?></center></td>
@@ -70,6 +72,7 @@
                       <td><?php echo rupiah($barang_harga_modal)?></td>
                       <td><?php echo rupiah($harga_normal)?></td>
                       <td><?php echo $tanggal?></td>
+                      <td><?php echo $jenis_barang?></td>
                       <td><?php echo $diskon." %"?></td>
                       <td>
                           <a href="#" style="margin-right: 10px; margin-left: 20px;" data-toggle="modal" data-target="#editdata<?php echo $barang_id?>"><span class="ti-pencil"></span></a>
@@ -119,6 +122,14 @@
                                 <div class="col-md-12">
                                     <label class="control-label">Foto Barang</label>
                                     <input class="form-control form-white" type="file" name="filefoto" />
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label">Jenis Barang</label>
+                                    <select class="custom-select" name="jenis_barang">
+                                        <option selected>Pilih jenis barang</option>
+                                        <option value="kain">Kain</option>
+                                        <option value="produk">Produk</option>
+                                    </select>
                                 </div>
                             </div>          
                     </div>
