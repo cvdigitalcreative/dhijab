@@ -5,8 +5,9 @@
 	class M_pemesanan extends CI_Model
 	{
 
-		function save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir_id,$at_id,$mp_id,$uang){
-			$hsl = $this->db->query("INSERT INTO pemesanan(pemesanan_nama,pemesanan_tanggal,pemesanan_hp,pemesanan_alamat,level,kurir_id,at_id,mp_id,uang_masuk) VALUES ('$nama_pemesan','$tanggal','$no_hp','$alamat','$level','$kurir_id','$at_id','$mp_id','$uang')");
+		function save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir_id,$at_id,$mp_id,$uang,$biaya_ongkir,$email_pemesanan,$note,$status){
+			$this->db->query("INSERT INTO pemesanan(pemesanan_nama,pemesanan_tanggal,pemesanan_hp,pemesanan_alamat,status_customer,kurir_id,at_id,mp_id,uang_kembalian,biaya_ongkir,email_pemesan,note,status_pemesanan) VALUES ('$nama_pemesan','$tanggal','$no_hp','$alamat','$level','$kurir_id','$at_id','$mp_id','$uang','$biaya_ongkir','$email_pemesanan','$note','$status')");
+			$hsl=$this->db->insert_id();
 			return $hsl;
 		}
 
@@ -137,6 +138,14 @@
 		function status_pesanan($pemesanan_id,$status_pemesanan){
 		
 				return $this->db->query("UPDATE pemesanan SET status_pemesanan = '$status_pemesanan' WHERE pemesanan_id = '$pemesanan_id'");
+			
+		}
+
+		function insert_uang_masuk($pemesanan_id,$jumlah){
+		
+					$hsl = $this->db->query("INSERT INTO uang_masuk(pemesanan_id,jumlah) VALUES ('$pemesanan_id','$jumlah')");
+
+					return $hsl;
 			
 		}
 		function status_eks($pemesanan_id,$status_eks){

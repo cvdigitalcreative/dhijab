@@ -23,9 +23,8 @@
                   <tr>
                       <th width="10">No</th>
                       <th>Nama Barang</th>
-                      <th><center>Stock Awal</center></th>
-                      <th><center>Stock Akhir</center></th>
-                      <th><center>Tanggal Input</center></th>
+                      <th><center>Sisa Stok</center></th>
+                      
                       <th width="100"><center>Aksi</center></th>
                   </tr>
               </thead>
@@ -36,17 +35,14 @@
                     $no++;
                     $barang_id = $i['barang_id'];
                     $barang_nama = $i['barang_nama'];
-                    $barang_stock_awal = $i['barang_stock_awal'];
-                    $barang_stock_akhir = $i['barang_stock_akhir'];
-                    $barang_level = $i['barang_level'];
-                    $tanggal = $i['tanggal'];
+                    $barang_stok = $i['barang_stok'];
+                  
                   ?>
                   <tr>
                       <td><center><?php echo $no?></center></td>
                       <td><?php echo $barang_nama?></td>
-                      <td><center><?php echo $barang_stock_awal?></center></td>
-                      <td><center><?php echo $barang_stock_akhir?></center></td>
-                      <td><center><?php echo $tanggal?></center></td>
+                      <td><center><?php echo $barang_stok?></center></td>
+                      
                       <td>
                           <center><a href="<?php echo base_url()?>Admin/Stock/History/<?php echo $barang_id?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock"><span class="ti-eye"></span></a></center>
                       </td>

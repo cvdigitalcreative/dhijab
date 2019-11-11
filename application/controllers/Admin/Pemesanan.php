@@ -46,14 +46,15 @@
 	  		$metpem = $this->input->post('metpem');
 			$tanggal = $this->input->post('tanggal');
 			$uang = $this->input->post('uang');
-	  		$level = 2;
+	  		$level = 1;
 	  		$barang_id = $this->input->post('barang');
 	  		$qty = $this->input->post('qty');
-
-	  		$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang);
-			$x=$this->m_pemesanan->getIdbyName($nama_pemesan);
-			$z=$x->row_array();
-			$pemesanan_id=$z['pemesanan_id'];
+	  		$biaya_ongkir= $this->input->post('biaya_ongkir');
+	  		$email_pemesanan=$this->input->post('email_pemesanan');
+	  		$note=$this->input->post('note');
+	  		$status=1;
+	  		$pemesanan_id=$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang,$biaya_ongkir,$email_pemesanan,$note,$status);
+			
 
 	  		$size = sizeof($barang_id);
 
@@ -121,24 +122,57 @@
 	  		$asal_transaksi = $this->input->post('at');
 	  		$kurir = $this->input->post('kurir');
 	  		$metpem = $this->input->post('metpem');
-	  		$level = 1;
-	  		$tanggal = $this->input->post('tanggal');
+			$tanggal = $this->input->post('tanggal');
+			$uang = $this->input->post('uang');
+	  		$level = 2;
 	  		$barang_id = $this->input->post('barang');
 	  		$qty = $this->input->post('qty');
+	  		$biaya_ongkir= $this->input->post('biaya_ongkir');
+	  		$email_pemesanan=$this->input->post('email_pemesanan');
+	  		$note=$this->input->post('note');
+	  		$status=0;
+	  		$pemesanan_id=$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang,$biaya_ongkir,$email_pemesanan,$note,$status);
+			
+	  		$size = sizeof($barang_id);
 
-	  		$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem);
-			$x=$this->m_pemesanan->getIdbyName($nama_pemesan);
-			$z=$x->row_array();
-			$pemesanan_id=$z['pemesanan_id'];
+	  		for($i=0; $i < $size; $i++){
+	  			$this->m_list_barang->save_list_barangR($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  		}
+
+	  		echo $this->session->set_flashdata('msg','success');
+	       	redirect('Admin/Pemesanan');		  	
+ 	  	}
+
+ 	  	function savepemesananP(){
+	  		$nama_pemesan = "admin";
+	  		$no_hp = "-";
+	  		$alamat = "-";
+	  		$asal_transaksi = "6";
+	  		$kurir ="6";
+	  		$metpem = "1";
+			$tanggal = $this->input->post('tanggal');
+			$uang = "0";
+	  		$level = 3;
+	  		$barang_id = $this->input->post('barang');
+	  		$qty = $this->input->post('qty');
+	  		$biaya_ongkir= "0";
+	  		$email_pemesanan="-";
+	  		$note=$this->input->post('note');
+	  		$status=3;
+	  		$pemesanan_id=$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang,$biaya_ongkir,$email_pemesanan,$note,$status);
+			
 
 	  		$size = sizeof($barang_id);
 
 	  		for($i=0; $i < $size; $i++){
-	  			$this->m_list_barang->save_list_barang($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_list_barang->save_list_barangR($pemesanan_id,$qty[$i],$barang_id[$i],$level);
 	  		}
+	  		$a = $this->m_list_barang->SUMLBNR($pemesanan_id)->row_array();
+	  		$jumlah=$a['total_keseluruhan'];
+	  		$this->m_pemesanan->insert_uang_masuk($pemesanan_id,$jumlah);
 
 	  		echo $this->session->set_flashdata('msg','success');
-	       	redirect('Admin/Pemesanan');	  	
+	       	redirect('Admin/Pemesanan');		  	
  	  	}
 
  	  	function edit_pesanan(){
@@ -159,29 +193,16 @@
  	  	function list_barang($pemesanan_id){
  	  		if($this->session->userdata('akses') == 2 && $this->session->userdata('masuk') == true){
  	  		   $level = $this->uri->segment(5);
- 	  		   if($level == 1){
+ 	  		  		$y['title'] = "List Barang Pemesan";
  	  		   	   $x['p_id'] = $pemesanan_id;
  	  		   	   $x['lvl'] =$level;	
-	 	  		   $y['title'] = "List Barang Pemesan";
-	 	  		   $x['listbarang'] = $this->m_list_barang->getLBRbyid($pemesanan_id);	
-	 	  		   $x['reseller'] = $this->m_barang->getDataReseller();
-	 	  		   $a = $this->m_list_barang->SUMLBR($pemesanan_id)->row_array();
- 	  		   	   $x['jumlah'] = $a['total_keseluruhan'];
-			       $this->load->view('v_header',$y);
-			       $this->load->view('admin/v_sidebar');
-			       $this->load->view('admin/v_list_barang1',$x);
- 	  		   }elseif($level == 2){
- 	  		   	   $y['title'] = "List Barang Pemesan";
- 	  		   	   $x['p_id'] = $pemesanan_id;
- 	  		   	   $x['lvl'] =$level;	
- 	  		   	   $x['listbarang'] = $this->m_list_barang->getLBNRbyid($pemesanan_id);
+ 	  		   	   $x['listbarang'] = $this->m_list_barang->get_list_barang($pemesanan_id);
  	  		   	   $a = $this->m_list_barang->SUMLBNR($pemesanan_id)->row_array();
  	  		   	   $x['nonreseller'] = $this->m_barang->getDataNonReseller1();
  	  		   	   $x['jumlah'] = $a['total_keseluruhan'];
 			       $this->load->view('v_header',$y);
 			       $this->load->view('admin/v_sidebar');
-			       $this->load->view('admin/v_list_barang',$x);		
- 	  		   }
+			       $this->load->view('admin/v_list_barang',$x);	
 		       
 		    }
 		    else{
@@ -322,7 +343,8 @@
 		  }
 		  function status(){
             $pemesanan_id = $this->input->post('pemesanan_id');
-            $status_pemesanan=$this->input->post('status_pemesanan');;
+            $status_pemesanan=$this->input->post('status_pemesanan');
+            $jumlah=$this->input->post('jumlah');
             if($status_pemesanan==0)
             {
             $status_pemesanan=1;
@@ -331,7 +353,10 @@
             else if($status_pemesanan==1)
             {
             $status_pemesanan=2;
+             $this->m_pemesanan->insert_uang_masuk($pemesanan_id,$jumlah);
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+
+
             }
              redirect('Admin/pemesanan');	
         

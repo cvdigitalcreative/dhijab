@@ -18,17 +18,23 @@
       <div class="card card-statistics h-100">
         <div class="card-body">
           <div class="col-xl-12 mb-10" style="display: flex">
-            <div class="col-md-4">
-              <a href="" data-toggle="modal" data-target="#tambah-pesanan-non-reseller" class="btn btn-primary btn-block ripple m-t-20">
+            <div class="col-md-3">
+              <a href="" data-toggle="modal" data-target="#tambah-pesanan-non-reseller" class="btn btn-primary btn-block ripple m-t-10">
                 <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Customer
               </a>
             </div>
-            <div class="col-md-4">
-              <a href="" data-toggle="modal" data-target="#reseller" class="btn btn-primary btn-block ripple m-t-20">
+            <div class="col-md-3">
+              <a href="" data-toggle="modal" data-target="#reseller" class="btn btn-primary btn-block ripple m-t-10">
                 <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Reseller
               </a>
             </div>
-            <div class="col-md-4">
+
+              <div class="col-md-3">
+              <a href="" data-toggle="modal" data-target="#produksi" class="btn btn-primary btn-block ripple m-t-20">
+                <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Produksi
+              </a>
+            </div>
+            <div class="col-md-3">
               <a href="<?= base_url() ?>Owner/Transaksi/cetak_transaksi" target="blank" class="btn btn-success btn-block ripple m-t-20">
                 <i class="fa fa-print pr-2"></i> Cetak
               </a>
@@ -43,15 +49,18 @@
                   <th width="10">Tanggal Pesanan</th>
                   <th>No HP</th>
                   <th>Alamat</th>
+                  <th>Email </th>
                   <th>Ekspedisi</th>
+                  <th>Biaya Ongkir</th>
                   <th>Asal Transaksi</th>
                   <th>Metode Pembayaran</th>
                   <th>List Barang</th>
                   <th>Status</th>
+                  <th>Note</th>
                   <th>Uang Kembalian</th>
                   <th>Ongkos kirim</th>
                   <th>Total Harga</th>
-                  <th>Note</th>
+                  
                   <th width="50">
                     <center>Aksi</center>
                   </th>
@@ -75,29 +84,23 @@
                   $tanggal = $i['tanggal'];
                   $hp = $i['pemesanan_hp'];
                   $alamat = $i['pemesanan_alamat'];
+                  $email = $i['email_pemesan'];
                   $kurir_id = $i['kurir_id'];
-                  $ongkir = $i['ongkir'];
+                  $ongkir = $i['biaya_ongkir'];
                   $mp_id1 = $i['mp_id'];
                   $mp_nama = $i['mp_nama'];
-                  $level = $i['level'];
+                  $level = $i['status_customer'];
                   $kurir_nama = $i['kurir_nama'];
                   $at_id = $i['at_id'];
                   $at_nama = $i['at_nama'];
                   $status = $i['status_pemesanan'];
-                  $uang = $i['uang_masuk'];
+                  $uang = $i['uang_kembalian'];
                   $note = $i['note'];
 
-                  if ($level == 1) {
-                    $q = $this->db->query("SELECT SUM(a.lb_qty * d.br_harga) AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.lb_qty = d.br_kuantitas AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
+                    $q = $this->db->query("SELECT SUM(lb_qty * harga)AS total_keseluruhan from list_barang where pemesanan_id=' $pemesanan_id'");
                     $c = $q->row_array();
-                    $jumlah = $c['total_keseluruhan'] + $ongkir;
-                    $kembalian = $uang - $jumlah;
-                  } elseif ($level == 2) {
-                    $q = $this->db->query("SELECT SUM(a.lb_qty * d.bnr_harga)AS total_keseluruhan FROM list_barang a, pemesanan b, barang c, barang_non_reseller d WHERE a.pemesanan_id = '$pemesanan_id' AND a.pemesanan_id = b.pemesanan_id AND a.barang_id = c.barang_id AND a.barang_id = d.barang_id");
-                    $c = $q->row_array();
-                    $jumlah = $c['total_keseluruhan'] + $ongkir;
-                    $kembalian = $uang - $jumlah;
-                  }
+                    $jumlah = $c['total_keseluruhan'] ;
+                  
 
 
                   ?>
@@ -109,7 +112,9 @@
                     <td><?php echo $tanggal ?></td>
                     <td><?php echo $hp ?></td>
                     <td><?php echo $alamat ?></td>
+                      <td><?php echo $email ?></td>
                     <td><?php echo $kurir_nama ?></td>
+                    <td><?php echo $ongkir ?></td>
                     <td><?php echo $at_nama ?></td>
                     <td><?php echo $mp_nama ?></td>
 
@@ -129,13 +134,13 @@
                     }
                     ?>
                     </td>
-
-                    <td><?php echo rupiah($kembalian) ?></td>
+                    <td><?php echo $note ?></td>
+                    <td><?php echo rupiah($uang) ?></td>
                     <td><?php echo rupiah($ongkir) ?></td>
                     <td><?php echo rupiah($jumlah) ?></td>
-                    <td><?php echo $note ?></td>
+                    
                     <?php 
-                  $total=$total+$jumlah;
+                      $total=$total+$jumlah;
                     ?>
                     <td>
                       <a href="#" style="margin-right: 10px; margin-left: 10px;" data-toggle="modal" data-target="#editdata<?php echo $pemesanan_id ?>"><span class="ti-pencil"></span></a>
@@ -144,7 +149,7 @@
                   </tr>
                 <?php endforeach; ?>
                 <tr>
-                      <th colspan="12"><center>Jumlah</center></th>
+                      <th colspan="15"><center>Jumlah</center></th>
                       <th><?php echo rupiah($total)?></th>
                     </tr>
               </tbody>
@@ -159,7 +164,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Tambah Pesanan Non Reseller</h5>
+            <h5 class="modal-title">Tambah Pesanan Customer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananNR" method="post" enctype="multipart/form-data">
@@ -168,6 +173,10 @@
                 <div class="col-md-12">
                   <label class="control-label">Nama Pemesan</label>
                   <input class="form-control form-white" type="text" name="nama_pemesan" required />
+                </div>
+                <div class="col-md-12">
+                  <label class="control-label">Email Pemesan</label>
+                  <input class="form-control form-white" type="text" name="email_pemesanan" required />
                 </div>
                 <div class="col-md-12">
                   <label class="control-label">No HP</label>
@@ -182,7 +191,7 @@
                   <input class="form-control form-white" type="text" name="alamat" required />
                 </div>
                 <div class="col-md-12">
-                  <label class="control-label">Uang Customer</label>
+                  <label class="control-label">Uang Kembalian</label>
                   <input class="form-control form-white" type="text" name="uang" required />
                 </div>
                 <div class="col-md-12">
@@ -214,6 +223,10 @@
                   </select>
                 </div>
                 <div class="col-md-12">
+                  <label class="control-label">Biaya Ongkir</label>
+                  <input class="form-control form-white" type="text" name="biaya_ongkir" required />
+                </div>
+                <div class="col-md-12">
                   <label class="control-label">Jenis Pembayaran</label>
                   <select class="form-control" name="metpem" required>
                     <option selected value="">Pilih</option>
@@ -229,8 +242,10 @@
                 </div>
                 <div class="col-md-12">
                   <label class="control-label">Note</label>
-                  <input class="form-control form-white" type="text" name="" required />
+                  <input class="form-control form-white" type="text" name="note" required />
                 </div>
+
+                
                 <div class="form-group col-md-12 mt-10" id="dynamic_field">
                   <div class="row">
                     <div class="col-md-8">
@@ -268,18 +283,22 @@
 
     <!-- Modal Pesanan Reseller-->
     <div class="modal" tabindex="-1" role="dialog" id="reseller">
-      <div class="modal-dialog modal-lg">
+       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Tambah Pesanan Reseller</h5>
+            <h5 class="modal-title">Tambah Pesanan  Reseller</h5>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananR" method="post" enctype="multipart/form-data">
             <div class="modal-body p-20">
               <div class="row">
                 <div class="col-md-12">
-                  <label class="control-label">Nama Pemesan</label>
+                  <label class="control-label">Nama Akun Pemesan</label>
                   <input class="form-control form-white" type="text" name="nama_pemesan" required />
+                </div>
+                <div class="col-md-12">
+                  <label class="control-label">Email Pemesan</label>
+                  <input class="form-control form-white" type="text" name="email_pemesanan" required />
                 </div>
                 <div class="col-md-12">
                   <label class="control-label">No HP</label>
@@ -294,10 +313,9 @@
                   <input class="form-control form-white" type="text" name="alamat" required />
                 </div>
                 <div class="col-md-12">
-                  <label class="control-label">Uang Customer</label>
+                  <label class="control-label">Uang Kembalian</label>
                   <input class="form-control form-white" type="text" name="uang" required />
                 </div>
-
                 <div class="col-md-12">
                   <label class="control-label">Asal Transaksi</label>
                   <select class="form-control" name="at" required>
@@ -327,6 +345,10 @@
                   </select>
                 </div>
                 <div class="col-md-12">
+                  <label class="control-label">Biaya Ongkir</label>
+                  <input class="form-control form-white" type="text" name="biaya_ongkir" required />
+                </div>
+                <div class="col-md-12">
                   <label class="control-label">Jenis Pembayaran</label>
                   <select class="form-control" name="metpem" required>
                     <option selected value="">Pilih</option>
@@ -342,16 +364,18 @@
                 </div>
                 <div class="col-md-12">
                   <label class="control-label">Note</label>
-                  <input class="form-control form-white" type="text" name="" required />
+                  <input class="form-control form-white" type="text" name="note" required />
                 </div>
-                <div class="form-group col-md-12 mt-10" id="dynamic_field1">
+
+                
+                <div class="form-group col-md-12 mt-10" id="dynamic_field">
                   <div class="row">
                     <div class="col-md-8">
                       <label class="control-label">Barang</label>
                       <select class="form-control" name="barang[]" required>
                         <option selected value="">Pilih</option>
                         <?php
-                        foreach ($reseller->result_array() as $i) :
+                        foreach ($nonreseller->result_array() as $i) :
                           $barang_id = $i['barang_id'];
                           $barang_nama = $i['barang_nama'];
                           ?>
@@ -360,14 +384,13 @@
                       </select>
                     </div>
                     <div class="col-md-2">
-                      <label class="control-label" for="harga">Jumlah</label>
+                      <label class="control-label" for="harga">Kuantitas</label>
                       <input class="form-control" type="number" name="qty[]" required>
                     </div>
-
                   </div>
                 </div>
                 <div class="col-md-12 mt-30">
-                  <input class="button" value="Add new" id="add1" />
+                  <input class="button" value="Add new" id="add" />
                 </div>
               </div>
             </div>
@@ -380,6 +403,73 @@
       </div>
     </div>
 
+
+     <!-- Modal Pesanan Produksi-->
+    <div class="modal" tabindex="-1" role="dialog" id="produksi">
+       <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Pesanan  Produksi</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananP" method="post" enctype="multipart/form-data">
+            <div class="modal-body p-20">
+              <div class="row">
+              
+               
+                <div class="col-md-12">
+                  <label class="control-label">Tanggal</label>
+                  <input class="form-control form-white" type="date" name="tanggal" required />
+                </div>
+              
+              
+                <div class="col-md-12">
+                  <label class="control-label">Note</label>
+                  <input class="form-control form-white" type="text" name="note" required />
+                </div>
+
+                
+                <div class="form-group col-md-12 mt-10" id="dynamic_field">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label class="control-label">Barang</label>
+                      <select class="form-control" name="barang[]" required>
+                        <option selected value="">Pilih</option>
+                        <?php
+                        foreach ($nonreseller->result_array() as $i) :
+                          $barang_id = $i['barang_id'];
+                          $barang_nama = $i['barang_nama'];
+                          ?>
+                          <option value="<?php echo $barang_id ?>"><?php echo $barang_nama ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-md-2">
+                      <label class="control-label" for="harga">Kuantitas</label>
+                      <input class="form-control" type="number" name="qty[]" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-30">
+                  <input class="button" value="Add new" id="add" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
     <?php
     $no = 0;
     foreach ($datapesanan->result_array() as $i) :
@@ -390,7 +480,7 @@
       $hp = $i['pemesanan_hp'];
       $alamat = $i['pemesanan_alamat'];
       $kurir_id1 = $i['kurir_id'];
-      $level = $i['level'];
+      $level = $i['status_customer'];
       $kurir_nama = $i['kurir_nama'];
       $at_id1 = $i['at_id'];
       $at_nama = $i['at_nama'];
@@ -575,7 +665,8 @@
             <div class="row">
               <div class="col-md-12">
                 <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
-                <input type="hidden" name="status_pemesanan" value="<?php echo $status_pemesanan ?>" />
+                <input type="hidden" name="jumlah" value="<?php echo $jumlah ?>" />
+                <input type="hidden" name="status_pemesanan" value="1" />
                 <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
               </div>
             </div>
