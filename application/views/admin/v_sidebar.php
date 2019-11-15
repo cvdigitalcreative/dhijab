@@ -8,10 +8,21 @@
         <!-- menu title -->
          <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">Website Components</li>
         <!-- All Form  --> 
-        <li>
-          <a href="<?php echo base_url()?>Admin/Pemesanan"><i class="ti-calendar"></i><span class="right-nav-text">History Ordering</span> </a>
-        </li>
-
+     
+          <li>
+          <a href="<?php echo base_url()?>Admin/Pemesanan"><i class="ti-calendar"></i><span class="right-nav-text">History Ordering Semua</span> </a>
+          </li>
+           <li>
+            <a href="<?php echo base_url()?>Admin/Pemesanan/customer"><i class="ti-calendar"></i><span class="right-nav-text">History Ordering Customer</span> </a>
+          </li>
+           <li>
+            <a href="<?php echo base_url()?>Admin/Pemesanan/reseller"><i class="ti-calendar"></i><span class="right-nav-text">History Ordering Reseller</span> </a>
+          </li>
+           <li>
+            <a href="<?php echo base_url()?>Admin/Pemesanan/produksi"><i class="ti-calendar"></i><span class="right-nav-text">History Ordering Produksi</span> </a>
+          </li>
+        
+        
         <!-- <li>
           <a href="<?php echo base_url()?>Admin/Pemesanan/Asal_Transaksi"><i class="ti-calendar"></i><span class="right-nav-text">Asal Transaksi</span> </a>
         </li>
@@ -28,7 +39,7 @@
         </li>
         
         <li>
-          <a href="<?php echo base_url()?>Admin/Pemesanan/metode_pembayaran"><i class="ti-calendar"></i><span class="right-nav-text">Ordering Produksi</span> </a>
+          <a href="<?php echo base_url()?>Admin/Pemesanan/konfirmasi_pesanan"><i class="ti-calendar"></i><span class="right-nav-text">Konfirmasi Pesanan</span> </a>
         </li>
 
          <!-- <li>
