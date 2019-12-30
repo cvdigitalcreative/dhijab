@@ -1,3 +1,7 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
 <div class="content-wrapper">
   <div class="page-title">
     <div class="row">
@@ -44,9 +48,11 @@
             <table id="datatable" class="table table-striped table-bordered p-0">
               <thead>
                 <tr>
-                  <th width="5">No</th>
+                  <th >No</th>
+                  <th >Nomor Order</th>
                   <th>Nama Pemesan</th>
-                  <th width="10">Tanggal Pesanan</th>
+                  <th>Nama Akun</th>
+                  <th >Tanggal Pesanan</th>
                   <th>No HP</th>
                   <th>Alamat</th>
                   <th>Email </th>
@@ -57,11 +63,12 @@
                   <th>List Barang</th>
                   <th>Status</th>
                   <th>Note</th>
+                  <th>Biaya Admin</th>
+                  <th>Diskon</th>
                   <th>Uang Kembalian</th>
-                  <th>Ongkos kirim</th>
                   <th>Total Harga</th>
                   
-                  <th width="50">
+                  <th >
                     <center>Aksi</center>
                   </th>
                 </tr>
@@ -81,6 +88,7 @@
 
                   $pemesanan_id = $i['pemesanan_id'];
                   $pemesanan_nama = $i['pemesanan_nama'];
+                   $nama_akun = $i['pemesanan_nama_akun'];
                   $tanggal = $i['tanggal'];
                   $hp = $i['pemesanan_hp'];
                   $alamat = $i['pemesanan_alamat'];
@@ -94,12 +102,14 @@
                   $at_id = $i['at_id'];
                   $at_nama = $i['at_nama'];
                   $status = $i['status_pemesanan'];
+                  $biaya_admin = $i['biaya_admin'];
+                  $diskon = $i['diskon'];
                   $uang = $i['uang_kembalian'];
                   $note = $i['note'];
 
                     $q = $this->db->query("SELECT SUM(lb_qty * harga)AS total_keseluruhan from list_barang where pemesanan_id=' $pemesanan_id'");
                     $c = $q->row_array();
-                    $jumlah = $c['total_keseluruhan'] ;
+                    $jumlah = $c['total_keseluruhan']+$ongkir-$diskon-$biaya_admin ;
                   
 
 
@@ -108,7 +118,9 @@
                     <td>
                       <center><?php echo $no ?></center>
                     </td>
+                    <td><?php echo $pemesanan_id ?></td>
                     <td><?php echo $pemesanan_nama ?></td>
+                     <td><?php echo $nama_akun ?></td>
                     <td><?php echo $tanggal ?></td>
                     <td><?php echo $hp ?></td>
                     <td><?php echo $alamat ?></td>
@@ -129,14 +141,15 @@
                         <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#kirim<?= $pemesanan_id ?>" style="margin-right: 20px">Dibayar </button>
                       <?php } else {
                       ?>
-                        <button type="submit" class="btn btn-success" style="margin-right: 20px">Terkirim</button>
+                        <button  class="btn btn-success" style="margin-right: 20px">Terkirim</button>
                       <?php
                     }
                     ?>
                     </td>
                     <td><?php echo $note ?></td>
+                    <td><?php echo rupiah($biaya_admin) ?></td>
+                    <td><?php echo rupiah($diskon) ?></td>
                     <td><?php echo rupiah($uang) ?></td>
-                    <td><?php echo rupiah($ongkir) ?></td>
                     <td><?php echo rupiah($jumlah) ?></td>
                     
                     <?php 
@@ -148,11 +161,12 @@
                     </td>
                   </tr>
                 <?php endforeach; ?>
-                <tr>
-                      <th colspan="15"><center>Jumlah</center></th>
-                      <th><?php echo rupiah($total)?></th>
-                    </tr>
+                
               </tbody>
+              <tr>
+                      <th colspan="18"><center>Jumlah</center></th>
+                      <th colspan="2"><?php echo rupiah($total)?></th>
+                    </tr>
             </table>
           </div>
         </div>
@@ -433,7 +447,7 @@
                   <div class="row">
                     <div class="col-md-8">
                       <label class="control-label">Barang</label>
-                      <select class="form-control" name="barang[]" required>
+                      <select class="form-control" name="barang[]" required id="select-state" placeholder="Pick a state...">
                         <option selected value="">Pilih</option>
                         <?php
                         foreach ($nonreseller->result_array() as $i) :
@@ -725,53 +739,56 @@
  jquery -->
 
 <!-- jquery -->
-<script src="<?php echo base_url() ?>assets/admin/js/jquery-3.3.1.min.js"></script>
 
 <!-- plugins-jquery -->
-<script src="<?php echo base_url() ?>assets/admin/js/plugins-jquery.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/plugins-jquery.js"></script>
 
 <!-- plugin_path -->
-<script>
-  var plugin_path = '<?php echo base_url() ?>assets/admin/js/';
-</script>
+<script>var plugin_path = '<?php echo base_url()?>assets/admin/js/';</script>
 
 <!-- chart -->
-<script src="<?php echo base_url() ?>assets/admin/js/chart-init.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/chart-init.js"></script>
 
 <!-- calendar -->
-<script src="<?php echo base_url() ?>assets/admin/js/calendar.init.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/calendar.init.js"></script>
 
 <!-- charts sparkline -->
-<script src="<?php echo base_url() ?>assets/admin/js/sparkline.init.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/sparkline.init.js"></script>
 
 <!-- charts morris -->
-<script src="<?php echo base_url() ?>assets/admin/js/morris.init.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/morris.init.js"></script>
 
 <!-- datepicker -->
-<script src="<?php echo base_url() ?>assets/admin/js/datepicker.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/datepicker.js"></script>
 
 <!-- sweetalert2 -->
-<script src="<?php echo base_url() ?>assets/admin/js/sweetalert2.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/sweetalert2.js"></script>
 
 <!-- toastr -->
-<script src="<?php echo base_url() . 'assets/admin/js/jquery.toast.min.js' ?>"></script>
+<script src="<?php echo base_url().'assets/admin/js/jquery.toast.min.js'?>"></script>
 
 <!-- validation -->
-<script src="<?php echo base_url() ?>assets/admin/js/validation.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/validation.js"></script>
 
 <!-- lobilist -->
-<script src="<?php echo base_url() ?>assets/admin/js/lobilist.js"></script>
-
+<script src="<?php echo base_url()?>assets/admin/js/lobilist.js"></script>
+ 
 <!-- custom -->
-<script src="<?php echo base_url() ?>assets/admin/js/custom.js"></script>
-
+<script src="<?php echo base_url()?>assets/admin/js/custom.js"></script>
+  
 <!-- mask -->
-<script src="<?php echo base_url() ?>assets/admin/js/jquery.mask.min.js"></script>
+<script src="<?php echo base_url()?>assets/admin/js/jquery.mask.min.js"></script>
 
 </body>
 
 </html>
-
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('select').selectize({
+          sortField: 'text'
+      });
+  });
+</script>
 <script type="text/javascript">
   $(document).ready(function() {
     // Format mata uang.
@@ -801,6 +818,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+
     var i = 1;
     $('#add1').click(function() {
       i++;

@@ -46,7 +46,7 @@
               </thead>
               <tbody>
                   <?php
-
+                      $jumlah=0;
                     function rupiah($angka){
                       $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
                       return $hasil_rupiah;
@@ -63,6 +63,7 @@
                       $barang_nama = $i['barang_nama'];
                       $bnr_harga = $i['bnr_harga'];
                       $total = $i['total'];
+                      $jumlah=$total+$jumlah;
                   ?>
                     <tr>
                      <td><center><?php echo $no?></center></td>

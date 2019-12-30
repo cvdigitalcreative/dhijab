@@ -52,7 +52,7 @@
 	  		$biaya_ongkir= $this->input->post('biaya_ongkir');
 	  		$email_pemesanan=$this->input->post('email_pemesanan');
 	  		$note=$this->input->post('note');
-	  		$status=1;
+	  		$status=0;
 	  		$pemesanan_id=$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang,$biaya_ongkir,$email_pemesanan,$note,$status);
 			
 

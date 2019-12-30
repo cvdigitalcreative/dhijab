@@ -43,7 +43,7 @@
               </thead>
               <tbody>
                   <?php
-
+                    $jumlah=0;
                     function rupiah($angka){
                       $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
                       return $hasil_rupiah;
@@ -60,6 +60,7 @@
                       $barang_nama = $i['barang_nama'];
                       $br_harga = $i['br_harga'];
                       $total = $i['total'];
+                      $jumlah+=$total;
                   ?>
                     <tr>
                      <td><center><?php echo $no?></center></td>
@@ -72,7 +73,6 @@
                           <center><a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#hapusdata"><span class="ti-trash"></span></a></center>
                       </td>
                     </tr>
-                    <?php endforeach;?>
                     <tr>
                       <th colspan="4"><center>Jumlah</center></th>
                       <th><?php echo rupiah($jumlah)?></th>
