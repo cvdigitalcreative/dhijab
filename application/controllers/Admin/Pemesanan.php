@@ -45,6 +45,8 @@
 	  		$kurir = $this->input->post('kurir');
 	  		$metpem = $this->input->post('metpem');
 			$tanggal = $this->input->post('tanggal');
+			$diskon = $this->input->post('diskon');
+			$biaya_admin = $this->input->post('biaya_admin');
 			$uang = $this->input->post('uang');
 	  		$level = 1;
 	  		$barang_id = $this->input->post('barang');
@@ -53,7 +55,7 @@
 	  		$email_pemesanan=$this->input->post('email_pemesanan');
 	  		$note=$this->input->post('note');
 	  		$status=0;
-	  		$pemesanan_id=$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang,$biaya_ongkir,$email_pemesanan,$note,$status);
+	  		$pemesanan_id=$this->m_pemesanan->save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir,$asal_transaksi,$metpem,$uang,$biaya_ongkir,$email_pemesanan,$note,$status,$biaya_admin,$diskon);
 			
 
 	  		$size = sizeof($barang_id);

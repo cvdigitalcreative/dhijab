@@ -204,6 +204,14 @@
                   <label class="control-label">Alamat</label>
                   <input class="form-control form-white" type="text" name="alamat" required />
                 </div>
+                 <div class="col-md-12">
+                  <label class="control-label">Biaya Admin</label>
+                  <input class="form-control form-white" type="text" name="biaya_admin" required />
+                </div>
+                 <div class="col-md-12">
+                  <label class="control-label">Diskon</label>
+                  <input class="form-control form-white" type="text" name="diskon" required />
+                </div>
                 <div class="col-md-12">
                   <label class="control-label">Uang Kembalian</label>
                   <input class="form-control form-white" type="text" name="uang" required />

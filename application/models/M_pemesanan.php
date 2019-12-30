@@ -5,8 +5,8 @@
 	class M_pemesanan extends CI_Model
 	{
 
-		function save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir_id,$at_id,$mp_id,$uang,$biaya_ongkir,$email_pemesanan,$note,$status){
-			$this->db->query("INSERT INTO pemesanan(pemesanan_nama,pemesanan_tanggal,pemesanan_hp,pemesanan_alamat,status_customer,kurir_id,at_id,mp_id,uang_kembalian,biaya_ongkir,email_pemesan,note,status_pemesanan) VALUES ('$nama_pemesan','$tanggal','$no_hp','$alamat','$level','$kurir_id','$at_id','$mp_id','$uang','$biaya_ongkir','$email_pemesanan','$note','$status')");
+		function save_pesanan($nama_pemesan,$tanggal,$no_hp,$alamat,$level,$kurir_id,$at_id,$mp_id,$uang,$biaya_ongkir,$email_pemesanan,$note,$status,$biaya_admin,$diskon){
+			$this->db->query("INSERT INTO pemesanan(pemesanan_nama,pemesanan_tanggal,pemesanan_hp,pemesanan_alamat,status_customer,kurir_id,at_id,mp_id,uang_kembalian,biaya_ongkir,email_pemesan,note,status_pemesanan,biaya_admin,diskon) VALUES ('$nama_pemesan','$tanggal','$no_hp','$alamat','$level','$kurir_id','$at_id','$mp_id','$uang','$biaya_ongkir','$email_pemesanan','$note','$status','$biaya_admin','$diskon')");
 			$hsl=$this->db->insert_id();
 			return $hsl;
 		}
@@ -14,7 +14,7 @@
 	
 
 		function getPemesanan(){
-			$hasil=$this->db->query("SELECT a.*,b.*,c.*,d.*,DATE_FORMAT(pemesanan_tanggal,'%d/%m/%Y') AS tanggal FROM pemesanan a, kurir b, asal_transaksi c, metode_pembayaran d WHERE a.kurir_id = b.kurir_id AND a.at_id = c.at_id AND a.mp_id = d.mp_id  ORDER BY a.pemesanan_id DESC");
+			$hasil=$this->db->query("SELECT a.*,b.*,c.*,d.*,DATE_FORMAT(pemesanan_tanggal,'%d/%m/%Y') AS tanggal FROM pemesanan a, kurir b, asal_transaksi c, metode_pembayaran d WHERE a.kurir_id = b.kurir_id AND a.at_id = c.at_id AND a.mp_id = d.mp_id and a.status_pemesanan!=4  ORDER BY a.pemesanan_id DESC");
         	return $hasil;
 		}
 
@@ -52,12 +52,17 @@
 
 		function hapus_pesanan($pemesanan_id){
 			$this->db->trans_start();
-				$this->db->query("DELETE FROM pemesanan WHERE pemesanan_id='$pemesanan_id'");
+				$this->db->query("UPDATE pemesanan SET status_pemesanan=4 WHERE pemesanan_id='$pemesanan_id'");
+
 				$data = $this->db->query("SELECT * FROM list_barang WHERE pemesanan_id='$pemesanan_id'");
 				foreach ($data->result_array() as $i) {
 					$qty = $i['lb_qty'];
 					$barang_id = $i['barang_id'];
-					$this->db->query("UPDATE barang SET barang_stock_akhir = barang_stock_akhir+'$qty' WHERE barang_id = '$barang_id'");
+					$data_2= $this->db->query("SELECT barang_stok FROM barang WHERE barang_id='$barang_id'");
+					foreach ($data_2->result_array() as $i) {
+						$barang_stock_akhir=$i['barang_stok'];
+					}
+					$this->db->query("UPDATE barang SET barang_stok = ($barang_stock_akhir+$qty) WHERE barang_id = '$barang_id'");
 				}
 				$this->db->query("DELETE FROM list_barang WHERE pemesanan_id='$pemesanan_id'");
 	      	$this->db->trans_complete();

@@ -12,7 +12,7 @@
 				// if($cek->num_rows > 0){
 
 				// }
-				$x = $this->db->query("SELECT berat,harga_ecer,harga_grosir_3_11,harga_grosir_12_29,grosir_diatas_30 from kategori_barang,barang where barang.id_kategori_barang=kategori_barang.id_kategori_barang and barang.barang_id='$barang_id'")->row_array();
+				$x = $this->db->query("SELECT id_jenis_barang,berat,harga_ecer,harga_grosir_3_11,harga_grosir_12_29,grosir_diatas_30 from kategori_barang,barang where barang.id_kategori_barang=kategori_barang.id_kategori_barang and barang.barang_id='$barang_id'")->row_array();
 				
 				$berat = $x['berat'];
 
