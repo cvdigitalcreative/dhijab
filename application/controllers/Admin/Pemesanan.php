@@ -104,14 +104,16 @@
             {
             $status_pemesanan=1;
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-            }
-            else if($status_pemesanan==1)
+            }else if($status_pemesanan==1)
             {
             $status_pemesanan=2;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+            else if($status_pemesanan==2)
+            {
+            $status_pemesanan=3;
              $this->m_pemesanan->insert_uang_masuk($pemesanan_id,$jumlah);
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-
-
             }
              redirect('Admin/Pemesanan/customer');	
         }
@@ -182,14 +184,16 @@
             {
             $status_pemesanan=1;
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-            }
-            else if($status_pemesanan==1)
+            }else if($status_pemesanan==1)
             {
             $status_pemesanan=2;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+            else if($status_pemesanan==2)
+            {
+            $status_pemesanan=3;
              $this->m_pemesanan->insert_uang_masuk($pemesanan_id,$jumlah);
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-
-
             }
              redirect('Admin/Pemesanan/reseller');	
         }
@@ -255,18 +259,20 @@
             $pemesanan_id = $this->input->post('pemesanan_id');
             $status_pemesanan=$this->input->post('status_pemesanan');
             $jumlah=$this->input->post('jumlah');
-            if($status_pemesanan==0)
+           if($status_pemesanan==0)
             {
             $status_pemesanan=1;
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-            }
-            else if($status_pemesanan==1)
+            }else if($status_pemesanan==1)
             {
             $status_pemesanan=2;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+            else if($status_pemesanan==2)
+            {
+            $status_pemesanan=3;
              $this->m_pemesanan->insert_uang_masuk($pemesanan_id,$jumlah);
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-
-
             }
              redirect('Admin/Pemesanan/produksi');	
         }
@@ -731,14 +737,16 @@
             {
             $status_pemesanan=1;
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-            }
-            else if($status_pemesanan==1)
+            }else if($status_pemesanan==1)
             {
             $status_pemesanan=2;
+            $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
+            }
+            else if($status_pemesanan==2)
+            {
+            $status_pemesanan=3;
              $this->m_pemesanan->insert_uang_masuk($pemesanan_id,$jumlah);
             $this->m_pemesanan->status_pesanan($pemesanan_id,$status_pemesanan);
-
-
             }
              redirect('Admin/pemesanan');	
         
