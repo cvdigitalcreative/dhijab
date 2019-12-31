@@ -27,17 +27,8 @@
                 <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Customer
               </a>
             </div>
-            <div class="col-md-3">
-              <a href="" data-toggle="modal" data-target="#reseller" class="btn btn-primary btn-block ripple m-t-10">
-                <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Reseller
-              </a>
-            </div>
-
-              <div class="col-md-3">
-              <a href="" data-toggle="modal" data-target="#produksi" class="btn btn-primary btn-block ripple m-t-20">
-                <i class="fa fa-plus pr-2"></i> Tambah Pemesanan Produksi
-              </a>
-            </div>
+            
+             
             <div class="col-md-3">
               <a href="<?= base_url() ?>Owner/Transaksi/cetak_transaksi" target="blank" class="btn btn-success btn-block ripple m-t-20">
                 <i class="fa fa-print pr-2"></i> Cetak
@@ -181,7 +172,7 @@
             <h5 class="modal-title">Tambah Pesanan Customer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananNR" method="post" enctype="multipart/form-data">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananCustomer" method="post" enctype="multipart/form-data">
             <div class="modal-body p-20">
               <div class="row">
                 <div class="col-md-12">
@@ -302,204 +293,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Modal Pesanan Reseller-->
-    <div class="modal" tabindex="-1" role="dialog" id="reseller">
-       <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Tambah Pesanan  Reseller</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          </div>
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananR" method="post" enctype="multipart/form-data">
-            <div class="modal-body p-20">
-              <div class="row">
-                <div class="col-md-12">
-                  <label class="control-label">Nama Pemesan</label>
-                  <input class="form-control form-white" type="text" name="nama_pemesan" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Nama Akun Pemesan</label>
-                  <input class="form-control form-white" type="text" name="nama_akun_pemesan" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Email Pemesan</label>
-                  <input class="form-control form-white" type="text" name="email_pemesanan" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">No HP</label>
-                  <input class="form-control form-white" type="number" name="hp" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Tanggal</label>
-                  <input class="form-control form-white" type="date" name="tanggal" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Alamat</label>
-                  <input class="form-control form-white" type="text" name="alamat" required />
-                </div>
-                 <div class="col-md-12">
-                  <label class="control-label">Biaya Admin</label>
-                  <input class="form-control form-white" type="text" name="biaya_admin" required />
-                </div>
-                 <div class="col-md-12">
-                  <label class="control-label">Diskon</label>
-                  <input class="form-control form-white" type="text" name="diskon" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Uang Kembalian</label>
-                  <input class="form-control form-white" type="text" name="uang" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Asal Transaksi</label>
-                  <select class="form-control" name="at" required>
-                    <option selected value="">Pilih</option>
-                    <?php
-                    foreach ($asal_transaksi->result_array() as $i) :
-                      $at_id = $i['at_id'];
-                      $at_nama = $i['at_nama'];
-                      $at_tanggal = $i['at_tanggal'];
-                      ?>
-                      <option value="<?php echo $at_id ?>"><?php echo $at_nama ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Jenis Ekspedisi</label>
-                  <select class="form-control" name="kurir" required>
-                    <option selected value="">Pilih</option>
-                    <?php
-                    foreach ($kurir->result_array() as $i) :
-                      $kurir_id = $i['kurir_id'];
-                      $kurir_nama = $i['kurir_nama'];
-                      $kurir_tanggal = $i['kurir_tanggal'];
-                      ?>
-                      <option value="<?php echo $kurir_id ?>"><?php echo $kurir_nama ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Biaya Ongkir</label>
-                  <input class="form-control form-white" type="text" name="biaya_ongkir" required />
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Jenis Pembayaran</label>
-                  <select class="form-control" name="metpem" required>
-                    <option selected value="">Pilih</option>
-                    <?php
-                    foreach ($metode_pembayaran->result_array() as $i) :
-                      $mp_id = $i['mp_id'];
-                      $mp_nama = $i['mp_nama'];
-                      $mp_tanggal = $i['mp_tanggal'];
-                      ?>
-                      <option value="<?php echo $mp_id ?>"><?php echo $mp_nama ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-                <div class="col-md-12">
-                  <label class="control-label">Note</label>
-                  <input class="form-control form-white" type="text" name="note" required />
-                </div>
-
-                
-                <div class="form-group col-md-12 mt-10" id="dynamic_field1">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <label class="control-label">Barang</label>
-                      <select class="form-control" name="barang[]" required>
-                        <option selected value="">Pilih</option>
-                        <?php
-                        foreach ($nonreseller->result_array() as $i) :
-                          $barang_id = $i['barang_id'];
-                          $barang_nama = $i['barang_nama'];
-                          ?>
-                          <option value="<?php echo $barang_id ?>"><?php echo $barang_nama ?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <div class="col-md-2">
-                      <label class="control-label" for="harga">Kuantitas</label>
-                      <input class="form-control" type="number" name="qty[]" required>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 mt-30">
-                  <input class="button" value="Add new" id="add1" />
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-
-     <!-- Modal Pesanan Produksi-->
-    <div class="modal" tabindex="-1" role="dialog" id="produksi">
-       <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Tambah Pesanan  Produksi</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          </div>
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananP" method="post" enctype="multipart/form-data">
-            <div class="modal-body p-20">
-              <div class="row">
-              
-               
-                <div class="col-md-12">
-                  <label class="control-label">Tanggal</label>
-                  <input class="form-control form-white" type="date" name="tanggal" required />
-                </div>
-              
-              
-                <div class="col-md-12">
-                  <label class="control-label">Note</label>
-                  <input class="form-control form-white" type="text" name="note" required />
-                </div>
-
-                
-                <div class="form-group col-md-12 mt-10" id="dynamic_field2">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <label class="control-label">Barang</label>
-                      <select class="form-control" name="barang[]" required id="select-state" placeholder="Pick a state...">
-                        <option selected value="">Pilih</option>
-                        <?php
-                        foreach ($produksi->result_array() as $i) :
-                          $barang_id = $i['barang_id'];
-                          $barang_nama = $i['barang_nama'];
-                          ?>
-                          <option value="<?php echo $barang_id ?>"><?php echo $barang_nama ?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <div class="col-md-2">
-                      <label class="control-label" for="harga">Kuantitas</label>
-                      <input class="form-control" type="number" name="qty[]" required>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 mt-30">
-                  <input class="button" value="Add new" id="add3" />
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success ripple save-category" id="simpan">Save</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-
-
 
 
 
@@ -631,7 +424,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body p-20">
-              <form action="<?php echo base_url() ?>Admin/Pemesanan/hapus_pesanan" method="post">
+              <form action="<?php echo base_url() ?>Admin/Pemesanan/hapus_pesananCustomer" method="post">
                 <div class="row">
                   <div class="col-md-12">
                     <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
@@ -668,7 +461,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body p-20">
-            <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+            <form action="<?php echo base_url() ?>Admin/Pemesanan/statusCustomer" method="POST">
               <div class="row">
                 <div class="col-md-12">
                   <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
@@ -695,7 +488,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body p-20">
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/statusCustomer" method="POST">
             <div class="row">
               <div class="col-md-12">
                 <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />

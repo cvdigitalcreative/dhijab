@@ -95,6 +95,11 @@
         	return $hasil;
 		}
 
+		function getdataProduksi(){
+			$hasil=$this->db->query("SELECT barang.* FROM barang WHERE barang_stok > 0 and id_jenis_barang=2 ORDER BY barang_nama");
+        	return $hasil;
+		}
+
 		function getDataNonReseller(){
 			$hasil=$this->db->query("SELECT a.*,b.*,DATE_FORMAT(barang_tanggal,'%d/%m/%Y %H:%i') AS tanggal FROM barang a, barang_non_reseller b WHERE a.barang_id = b.barang_id");
         	return $hasil;

@@ -139,9 +139,13 @@
                       <?php } elseif ($status == 1) {
                       ?>
                         <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#kirim<?= $pemesanan_id ?>" style="margin-right: 20px">Dibayar </button>
-                      <?php } else {
+                      <?php } elseif ($status == 2) {
                       ?>
-                        <button  class="btn btn-success" style="margin-right: 20px">Terkirim</button>
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#selesai<?= $pemesanan_id ?>" style="margin-right: 20px">Dikirim </button>
+                      <?php }
+                       else {
+                      ?>
+                        <button  class="btn btn-success" style="margin-right: 20px">Selesai</button>
                       <?php
                     }
                     ?>
@@ -181,7 +185,7 @@
             <h5 class="modal-title">Tambah Pesanan Customer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananNR" method="post" enctype="multipart/form-data">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesanankonfirmasi_pesananCustomer" method="post" enctype="multipart/form-data">
             <div class="modal-body p-20">
               <div class="row">
                 <div class="col-md-12">
@@ -311,7 +315,7 @@
             <h5 class="modal-title">Tambah Pesanan  Reseller</h5>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananR" method="post" enctype="multipart/form-data">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesanankonfirmasi_pesananReseller" method="post" enctype="multipart/form-data">
             <div class="modal-body p-20">
               <div class="row">
                 <div class="col-md-12">
@@ -446,7 +450,7 @@
             <h5 class="modal-title">Tambah Pesanan  Produksi</h5>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesananP" method="post" enctype="multipart/form-data">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/savepemesanankonfirmasi_pesananProduksi" method="post" enctype="multipart/form-data">
             <div class="modal-body p-20">
               <div class="row">
               
@@ -631,7 +635,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body p-20">
-              <form action="<?php echo base_url() ?>Admin/Pemesanan/hapus_pesanan" method="post">
+              <form action="<?php echo base_url() ?>Admin/Pemesanan/hapus_pesanankonfirmasi_pesanan" method="post">
                 <div class="row">
                   <div class="col-md-12">
                     <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
@@ -668,7 +672,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body p-20">
-            <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+            <form action="<?php echo base_url() ?>Admin/Pemesanan/statuskonfirmasi_pesanan" method="POST">
               <div class="row">
                 <div class="col-md-12">
                   <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
@@ -695,12 +699,39 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body p-20">
-          <form action="<?php echo base_url() ?>Admin/Pemesanan/status" method="POST">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/statuskonfirmasi_pesanan" method="POST">
             <div class="row">
               <div class="col-md-12">
                 <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
                 <input type="hidden" name="jumlah" value="<?php echo $jumlah ?>" />
                 <input type="hidden" name="status_pemesanan" value="1" />
+                <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger ripple" data-dismiss="modal">Tidak</button>
+          <button type="submit" class="btn btn-success ripple save-category">Ya</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="selesai<?= $pemesanan_id ?>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ganti Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body p-20">
+          <form action="<?php echo base_url() ?>Admin/Pemesanan/statuskonfirmasi_pesanan" method="POST">
+            <div class="row">
+              <div class="col-md-12">
+                <input type="hidden" name="pemesanan_id" value="<?php echo $pemesanan_id ?>" />
+                <input type="hidden" name="jumlah" value="<?php echo $jumlah ?>" />
+                <input type="hidden" name="status_pemesanan" value="2" />
                 <p>Apakah kamu yakin ingin mengganti status data ini?</i></b></p>
               </div>
             </div>
