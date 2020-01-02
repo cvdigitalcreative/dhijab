@@ -109,7 +109,7 @@
 
                     $q = $this->db->query("SELECT SUM(lb_qty * harga)AS total_keseluruhan from list_barang where pemesanan_id=' $pemesanan_id'");
                     $c = $q->row_array();
-                    $jumlah = $c['total_keseluruhan']+$ongkir-$diskon-$biaya_admin ;
+                    $jumlah = $c['total_keseluruhan']+$ongkir-($diskon+$biaya_admin+$uang) ;
                   
 
 

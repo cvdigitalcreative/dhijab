@@ -5,6 +5,11 @@
 	class M_barang extends CI_Model
 	{
 		
+		function saveStok($id_barang, $jumlah, $status){
+			$hsl = $this->db->query("INSERT INTO stok_barang(id_barang,jumlah,status) VALUES ('$id_barang', '$jumlah', '$status')");
+		}
+
+
 		function savebarang($nama_barang, $barang_stock_awal, $barang_stock_akhir, $barang_harga_modal, $barang_level,$jenis_barang, $barang_foto){
 			$hsl = $this->db->query("INSERT INTO barang(barang_nama,barang_stock_awal,barang_stock_akhir,barang_harga_modal,barang_level,jenis_barang,barang_foto) VALUES ('$nama_barang','$barang_stock_awal','$barang_stock_akhir','$barang_harga_modal','$barang_level','$jenis_barang','$barang_foto')");
         	return $hsl;
@@ -105,14 +110,25 @@
         	return $hasil;
 		}
 
-		function getHistoryStock($barang_id){
+		function getHistoryStock($barang_id,$status){
+			$hasil=$this->db->query("select stok_barang.*,barang.barang_nama from stok_barang,barang where stok_barang.id_barang='$barang_id' and stok_barang.status='$status' and stok_barang.id_barang=barang.barang_id  ");
+        	return $hasil;
+		}
+
+		function getHistoryStocks($barang_id){
 			$hasil=$this->db->query("SELECT c.pemesanan_nama,a.stock_berkurang,a.barang_id,b.barang_nama,DATE_FORMAT(a.hsb_tanggal,'%d/%m/%Y %H:%i') AS tanggal FROM history_stock_barang a,barang b, pemesanan c WHERE a.barang_id = '$barang_id' AND a.barang_id = b.barang_id AND a.pemesanan_id = c.pemesanan_id");
         	return $hasil;
 		}
 
 		function update_stock($barang_id,$stock)
 		{
-			return $this->db->query("UPDATE `barang` SET `barang_stock_awal`=`barang_stock_awal`+$stock WHERE `barang_id`=$barang_id");
+			$data_2= $this->db->query("SELECT barang_stok FROM barang WHERE barang_id='$barang_id'");
+					foreach ($data_2->result_array() as $i) {
+						$barang_stock_akhir=$i['barang_stok'];
+					}
+			$this->db->query("UPDATE barang SET barang_stok = ($barang_stock_akhir+$stock) WHERE barang_id = '$barang_id'");
+			$this->db->query("INSERT INTO stok_barang(id_barang,jumlah,status) VALUES ('$barang_id', '$stock', '2')");
+			
 		}
 
 	}

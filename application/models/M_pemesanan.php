@@ -83,6 +83,7 @@
 						$barang_stock_akhir=$i['barang_stok'];
 					}
 					$this->db->query("UPDATE barang SET barang_stok = ($barang_stock_akhir+$qty) WHERE barang_id = '$barang_id'");
+					$this->db->query("INSERT INTO stok_barang(id_barang,jumlah,status) VALUES ('$barang_id', '$qty', '2')");
 				}
 				$this->db->query("DELETE FROM list_barang WHERE pemesanan_id='$pemesanan_id'");
 	      	$this->db->trans_complete();

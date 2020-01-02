@@ -24,14 +24,10 @@
                   <th width="10">No</th>
                   <th>Nama Barang</th>
                   <th>
-                    <center>Stock Awal</center>
+                    <center>Stock </center>
                   </th>
-                  <th>
-                    <center>Stock Akhir</center>
-                  </th>
-                  <th>
-                    <center>Tanggal Input</center>
-                  </th>
+                
+                  
                   <th width="100">
                     <center>Aksi</center>
                   </th>
@@ -44,10 +40,7 @@
                   $no++;
                   $barang_id = $i['barang_id'];
                   $barang_nama = $i['barang_nama'];
-                  $barang_stock_awal = $i['barang_stock_awal'];
-                  $barang_stock_akhir = $i['barang_stock_akhir'];
-                  $barang_level = $i['barang_level'];
-                  $tanggal = $i['tanggal'];
+                  $barang_stock_awal = $i['barang_stok'];
                   ?>
                   <tr>
                     <td>
@@ -57,17 +50,14 @@
                     <td>
                       <center><?php echo $barang_stock_awal ?></center>
                     </td>
-                    <td>
-                      <center><?php echo $barang_stock_akhir ?></center>
-                    </td>
-                    <td>
-                      <center><?php echo $tanggal ?></center>
-                    </td>
+                   
                     <td>
                       
                         <a href="#" style="margin-right: 20px" data-toggle="modal" data-target="#editdata<?php echo $barang_id ?>"><span class="ti-pencil"></span></a>
                       
-                      <a href="<?php echo base_url() ?>Stok/Stock/History/<?php echo $barang_id ?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock"><span class="ti-eye"></span></a>
+                      <a href="<?php echo base_url() ?>Stok/Stock/History/<?php echo $barang_id ?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock Masuk"><span class="ti-eye"></span></a>
+
+                       <a href="<?php echo base_url() ?>Stok/Stock/history_stok_keluar/<?php echo $barang_id ?>" data-toggle="tooltip" data-placement="top" title="Lihat History Stock Keluar"><span class="ti-eye"></span></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -165,9 +155,8 @@
 <?php   foreach($stock->result_array() as $i) :
                     
                     $barang_id = $i['barang_id'];
-                    $barang_nama = $i['barang_nama'];
-                    ['barang_stock_awal'];
-                    $barang_stock_akhir = $i['barang_stock_akhir'];
+                  $barang_nama = $i['barang_nama'];
+                  $barang_stock_awal = $i['barang_stok'];
 
                   ?>
         <!-- Modal edit Data -->
@@ -185,10 +174,10 @@
                                     <label class="control-label">Nama Barang</label>
                                     <input type="hidden" name="barang_id" value="<?php echo $barang_id?>">
                                    
-                                    <input class="form-control form-white" type="text" name="nama_barang" value="<?php echo $barang_nama?>" required/>
+                                    <input class="form-control form-white" type="text" name="nama_barang" value="<?php echo $barang_nama?>" disabled required/>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="control-label">Stock Awal : <?= $barang_stock_awal?> | Stock Akhir : <?= $barang_stock_akhir?></label>
+                                    <label class="control-label">Stock Awal : <?= $barang_stock_awal?></label>
                                     <input class="form-control form-white" type="number" name="stock" placeholder="masukkan jumlah stock yang ingin ditambah" />
                                 </div>
                                 <!-- <div class="col-md-12">

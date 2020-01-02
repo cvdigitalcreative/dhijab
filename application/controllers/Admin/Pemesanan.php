@@ -83,6 +83,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barang($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -163,6 +164,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barangR($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -240,6 +242,7 @@
 	  		$size = sizeof($barang_id);
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barangP($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 	  		$a = $this->m_list_barang->SUMLBNR($pemesanan_id)->row_array();
 	  		$jumlah=$a['total_keseluruhan'];
@@ -322,6 +325,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barang($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -354,6 +358,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barangR($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -445,6 +450,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barang($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -461,6 +467,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barang($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -477,6 +484,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barang($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -526,6 +534,7 @@
 
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barangR($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 
 	  		echo $this->session->set_flashdata('msg','success');
@@ -555,6 +564,7 @@
 	  		$size = sizeof($barang_id);
 	  		for($i=0; $i < $size; $i++){
 	  			$this->m_list_barang->save_list_barangP($pemesanan_id,$qty[$i],$barang_id[$i],$level);
+	  			$this->m_barang->saveStok($barang_id[$i], $qty[$i], 1);
 	  		}
 	  		$a = $this->m_list_barang->SUMLBNR($pemesanan_id)->row_array();
 	  		$jumlah=$a['total_keseluruhan'];

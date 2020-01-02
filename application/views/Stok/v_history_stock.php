@@ -32,9 +32,9 @@
                   $no = 0;
                   foreach($stock->result_array() as $i) :
                     $no++;
-                    $barang_id = $i['barang_id'];
+                    $barang_id = $i['id_barang'];
                     $barang_nama = $i['barang_nama'];
-                    $stock_berkurang = $i['stock_berkurang'];
+                    $stock_berkurang = $i['jumlah'];
                     $tanggal = $i['tanggal'];
                   ?>
                   <tr>
